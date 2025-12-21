@@ -1,0 +1,31 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# https://assetstore.unity.com/packages/tools/sprite-management/texturepacker-importer-16641
+#
+# created with Free texture packer v0.6.7
+# http://free-tex-packer.com
+#
+:format=40300
+:texture=texture.png
+:size=1074x240
+:pivotpoints=enabled
+:borders=disabled
+
+Background+HorizontalBorder+Shadow.png;1;1;417;238; 0.5;0.5; 0;0;0;0
+Button(4).png;420;173;384;66; 0.5;0.5; 0;0;0;0
+Button(2).png;806;183;184;56; 0.5;0.5; 0;0;0;0
+✨.png;992;181;59;58; 0.5;0.5; 0;0;0;0
+Button(3).png;806;125;184;56; 0.5;0.5; 0;0;0;0
+Icon.png;1053;222;20;17; 0.5;0.5; 0;0;0;0
+Icon(1).png;1053;200;16;20; 0.5;0.5; 0;0;0;0
+Icon(2).png;1053;182;16;16; 0.5;0.5; 0;0;0;0
+Container-2.png;992;127;52;52; 0.5;0.5; 0;0;0;0
+Container.png;992;73;51;52; 0.5;0.5; 0;0;0;0
+Paragraph+Background.png;420;96;161;75; 0.5;0.5; 0;0;0;0
+Container-1.png;583;43;128;128; 0.5;0.5; 0;0;0;0
+Overlay+Border+Shadow+OverlayBlur.png;713;137;91;34; 0.5;0.5; 0;0;0;0
+Button(1).png;713;85;50;50; 0.5;0.5; 0;0;0;0
+Button.png;420;44;50;50; 0.5;0.5; 0;0;0;0
+🎉.png;472;46;48;48; 0.5;0.5; 0;0;0;0
