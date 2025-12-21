@@ -1,0 +1,25 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# https://assetstore.unity.com/packages/tools/sprite-management/texturepacker-importer-16641
+#
+# created with Free texture packer v0.6.7
+# http://free-tex-packer.com
+#
+:format=40300
+:texture=texture.png
+:size=898x782
+:pivotpoints=enabled
+:borders=disabled
+
+bg.png;1;1;390;780; 0.5;0.5; 0;0;0;0
+khung.png;393;464;271;317; 0.5;0.5; 0;0;0;0
+Background-1.png;393;176;251;286; 0.5;0.5; 0;0;0;0
+icon1.png;393;122;52;52; 0.5;0.5; 0;0;0;0
+icon2.png;393;68;52;52; 0.5;0.5; 0;0;0;0
+icon3.png;393;14;52;52; 0.5;0.5; 0;0;0;0
+icon4.png;447;122;52;52; 0.5;0.5; 0;0;0;0
+Background+Border+Shadow.png;447;76;336;44; 0.5;0.5; 0;0;0;0
+Background+Shadow.png;501;158;312;16; 0.5;0.5; 0;0;0;0
+Background.png;646;176;251;286; 0.5;0.5; 0;0;0;0
