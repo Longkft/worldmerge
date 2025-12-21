@@ -1,0 +1,1982 @@
+[
+    {
+        "level": 1,
+        "mergePerGroup": 4,
+        "groups": [
+            {
+                "id": "MOVE",
+                "words": [
+                    "đi",
+                    "chạy",
+                    "nhảy",
+                    "leo"
+                ],
+                "result": "di chuyển"
+            },
+            {
+                "id": "HAPPY",
+                "words": [
+                    "vui",
+                    "mừng",
+                    "hạnh phúc",
+                    "phấn khởi"
+                ],
+                "result": "niềm vui"
+            },
+            {
+                "id": "ANIMAL",
+                "words": [
+                    "chó",
+                    "mèo",
+                    "bò",
+                    "ngựa"
+                ],
+                "result": "động vật"
+            },
+            {
+                "id": "WEATHER",
+                "words": [
+                    "mưa",
+                    "nắng",
+                    "gió",
+                    "sương"
+                ],
+                "result": "thời tiết"
+            },
+            {
+                "id": "STUDY",
+                "words": [
+                    "học",
+                    "đọc",
+                    "viết",
+                    "ghi nhớ"
+                ],
+                "result": "học tập"
+            },
+            {
+                "id": "FOOD",
+                "words": [
+                    "cơm",
+                    "bánh",
+                    "phở",
+                    "bún"
+                ],
+                "result": "món ăn"
+            }
+        ]
+    },
+    {
+        "level": 2,
+        "mergePerGroup": 4,
+        "groups": [
+            {
+                "id": "COLOR",
+                "words": [
+                    "đỏ",
+                    "xanh",
+                    "vàng",
+                    "trắng"
+                ],
+                "result": "màu sắc"
+            },
+            {
+                "id": "SHAPE",
+                "words": [
+                    "tròn",
+                    "vuông",
+                    "tam giác",
+                    "chữ nhật"
+                ],
+                "result": "hình dạng"
+            },
+            {
+                "id": "TIME",
+                "words": [
+                    "sáng",
+                    "trưa",
+                    "chiều",
+                    "tối"
+                ],
+                "result": "thời gian"
+            },
+            {
+                "id": "BODY",
+                "words": [
+                    "tay",
+                    "chân",
+                    "mắt",
+                    "tai"
+                ],
+                "result": "cơ thể"
+            },
+            {
+                "id": "CLOTH",
+                "words": [
+                    "áo",
+                    "quần",
+                    "váy",
+                    "mũ"
+                ],
+                "result": "quần áo"
+            },
+            {
+                "id": "FRUIT",
+                "words": [
+                    "táo",
+                    "cam",
+                    "chuối",
+                    "nho"
+                ],
+                "result": "trái cây"
+            }
+        ]
+    },
+    {
+        "level": 3,
+        "mergePerGroup": 4,
+        "groups": [
+            {
+                "id": "EMOTION_BAD",
+                "words": [
+                    "buồn",
+                    "khóc",
+                    "chán",
+                    "não nề"
+                ],
+                "result": "cảm xúc xấu"
+            },
+            {
+                "id": "TRANSPORT",
+                "words": [
+                    "xe đạp",
+                    "xe máy",
+                    "ô tô",
+                    "xe buýt"
+                ],
+                "result": "phương tiện"
+            },
+            {
+                "id": "PLACE",
+                "words": [
+                    "nhà",
+                    "trường",
+                    "bệnh viện",
+                    "công viên"
+                ],
+                "result": "địa điểm"
+            },
+            {
+                "id": "JOB",
+                "words": [
+                    "bác sĩ",
+                    "giáo viên",
+                    "kỹ sư",
+                    "công an"
+                ],
+                "result": "nghề nghiệp"
+            },
+            {
+                "id": "TOOL",
+                "words": [
+                    "búa",
+                    "kéo",
+                    "dao",
+                    "cưa"
+                ],
+                "result": "dụng cụ"
+            },
+            {
+                "id": "DRINK",
+                "words": [
+                    "nước",
+                    "trà",
+                    "cà phê",
+                    "sữa"
+                ],
+                "result": "đồ uống"
+            }
+        ]
+    },
+    {
+        "level": 4,
+        "mergePerGroup": 4,
+        "groups": [
+            {
+                "id": "SIZE",
+                "words": [
+                    "to",
+                    "nhỏ",
+                    "cao",
+                    "thấp"
+                ],
+                "result": "kích thước"
+            },
+            {
+                "id": "SPEED",
+                "words": [
+                    "nhanh",
+                    "chậm",
+                    "vội",
+                    "từ tốn"
+                ],
+                "result": "tốc độ"
+            },
+            {
+                "id": "DIRECTION",
+                "words": [
+                    "trái",
+                    "phải",
+                    "trước",
+                    "sau"
+                ],
+                "result": "phương hướng"
+            },
+            {
+                "id": "SOUND",
+                "words": [
+                    "ồn",
+                    "to",
+                    "nhỏ",
+                    "im lặng"
+                ],
+                "result": "âm thanh"
+            },
+            {
+                "id": "FEEL",
+                "words": [
+                    "nóng",
+                    "lạnh",
+                    "ấm",
+                    "mát"
+                ],
+                "result": "cảm giác"
+            },
+            {
+                "id": "SPORT",
+                "words": [
+                    "bóng đá",
+                    "bóng rổ",
+                    "tennis",
+                    "bơi"
+                ],
+                "result": "thể thao"
+            }
+        ]
+    },
+    {
+        "level": 5,
+        "mergePerGroup": 4,
+        "groups": [
+            {
+                "id": "NATURE",
+                "words": [
+                    "núi",
+                    "sông",
+                    "biển",
+                    "rừng"
+                ],
+                "result": "thiên nhiên"
+            },
+            {
+                "id": "SKY",
+                "words": [
+                    "mặt trời",
+                    "mặt trăng",
+                    "sao",
+                    "mây"
+                ],
+                "result": "bầu trời"
+            },
+            {
+                "id": "MATERIAL",
+                "words": [
+                    "gỗ",
+                    "sắt",
+                    "nhựa",
+                    "vải"
+                ],
+                "result": "vật liệu"
+            },
+            {
+                "id": "HOME",
+                "words": [
+                    "bếp",
+                    "phòng ngủ",
+                    "phòng khách",
+                    "nhà vệ sinh"
+                ],
+                "result": "ngôi nhà"
+            },
+            {
+                "id": "TECH",
+                "words": [
+                    "điện thoại",
+                    "máy tính",
+                    "tablet",
+                    "tivi"
+                ],
+                "result": "công nghệ"
+            },
+            {
+                "id": "ANIMAL_WILD",
+                "words": [
+                    "hổ",
+                    "sư tử",
+                    "voi",
+                    "khỉ"
+                ],
+                "result": "động vật hoang dã"
+            }
+        ]
+    },
+    {
+        "level": 6,
+        "mergePerGroup": 4,
+        "groups": [
+            {
+                "id": "EMOTION_GOOD",
+                "words": [
+                    "yêu",
+                    "thích",
+                    "vui",
+                    "hạnh phúc"
+                ],
+                "result": "cảm xúc tích cực"
+            },
+            {
+                "id": "SEA",
+                "words": [
+                    "cá",
+                    "tôm",
+                    "mực",
+                    "cua"
+                ],
+                "result": "sinh vật biển"
+            },
+            {
+                "id": "PLANT",
+                "words": [
+                    "cây",
+                    "hoa",
+                    "cỏ",
+                    "lá"
+                ],
+                "result": "thực vật"
+            },
+            {
+                "id": "CITY",
+                "words": [
+                    "đường",
+                    "nhà",
+                    "xe",
+                    "đèn"
+                ],
+                "result": "thành phố"
+            },
+            {
+                "id": "WORK",
+                "words": [
+                    "làm",
+                    "họp",
+                    "báo cáo",
+                    "kế hoạch"
+                ],
+                "result": "công việc"
+            },
+            {
+                "id": "FURNITURE",
+                "words": [
+                    "bàn",
+                    "ghế",
+                    "giường",
+                    "tủ"
+                ],
+                "result": "nội thất"
+            }
+        ]
+    },
+    {
+        "level": 7,
+        "mergePerGroup": 4,
+        "groups": [
+            {
+                "id": "COMMUNICATION",
+                "words": [
+                    "nói",
+                    "nghe",
+                    "viết",
+                    "đọc"
+                ],
+                "result": "giao tiếp"
+            },
+            {
+                "id": "ENERGY",
+                "words": [
+                    "điện",
+                    "lửa",
+                    "nhiệt",
+                    "ánh sáng"
+                ],
+                "result": "năng lượng"
+            },
+            {
+                "id": "HEALTH",
+                "words": [
+                    "khỏe",
+                    "bệnh",
+                    "thuốc",
+                    "bác sĩ"
+                ],
+                "result": "sức khỏe"
+            },
+            {
+                "id": "MONEY",
+                "words": [
+                    "tiền",
+                    "vàng",
+                    "bạc",
+                    "coin"
+                ],
+                "result": "tài sản"
+            },
+            {
+                "id": "TRAVEL",
+                "words": [
+                    "đi chơi",
+                    "du lịch",
+                    "tham quan",
+                    "nghỉ dưỡng"
+                ],
+                "result": "du lịch"
+            },
+            {
+                "id": "TOY",
+                "words": [
+                    "búp bê",
+                    "ô tô",
+                    "xếp hình",
+                    "bóng"
+                ],
+                "result": "đồ chơi"
+            }
+        ]
+    },
+    {
+        "level": 8,
+        "mergePerGroup": 4,
+        "groups": [
+            {
+                "id": "DIGITAL",
+                "words": [
+                    "app",
+                    "web",
+                    "game",
+                    "mạng"
+                ],
+                "result": "kỹ thuật số"
+            },
+            {
+                "id": "SCHOOL",
+                "words": [
+                    "lớp",
+                    "bảng",
+                    "sách",
+                    "thầy"
+                ],
+                "result": "trường học"
+            },
+            {
+                "id": "KITCHEN",
+                "words": [
+                    "dao",
+                    "nồi",
+                    "chảo",
+                    "bếp"
+                ],
+                "result": "nhà bếp"
+            },
+            {
+                "id": "ROAD",
+                "words": [
+                    "đường",
+                    "cầu",
+                    "ngã tư",
+                    "vạch"
+                ],
+                "result": "giao thông"
+            },
+            {
+                "id": "WEAR",
+                "words": [
+                    "đeo",
+                    "mặc",
+                    "cởi",
+                    "thay"
+                ],
+                "result": "trang phục"
+            },
+            {
+                "id": "SKILL",
+                "words": [
+                    "kỹ năng",
+                    "kinh nghiệm",
+                    "luyện tập",
+                    "thực hành"
+                ],
+                "result": "năng lực"
+            }
+        ]
+    },
+    {
+        "level": 9,
+        "mergePerGroup": 4,
+        "groups": [
+            {
+                "id": "THINK",
+                "words": [
+                    "nghĩ",
+                    "phân tích",
+                    "suy luận",
+                    "đánh giá"
+                ],
+                "result": "tư duy"
+            },
+            {
+                "id": "ART",
+                "words": [
+                    "vẽ",
+                    "nhạc",
+                    "phim",
+                    "ảnh"
+                ],
+                "result": "nghệ thuật"
+            },
+            {
+                "id": "RULE",
+                "words": [
+                    "luật",
+                    "quy định",
+                    "nguyên tắc",
+                    "điều lệ"
+                ],
+                "result": "quy tắc"
+            },
+            {
+                "id": "TEAM",
+                "words": [
+                    "nhóm",
+                    "đội",
+                    "tổ",
+                    "cộng đồng"
+                ],
+                "result": "tập thể"
+            },
+            {
+                "id": "SUCCESS",
+                "words": [
+                    "thắng",
+                    "đạt",
+                    "hoàn thành",
+                    "vượt qua"
+                ],
+                "result": "thành công"
+            },
+            {
+                "id": "FAIL",
+                "words": [
+                    "thua",
+                    "sai",
+                    "trượt",
+                    "mất"
+                ],
+                "result": "thất bại"
+            }
+        ]
+    },
+    {
+        "level": 10,
+        "mergePerGroup": 4,
+        "groups": [
+            {
+                "id": "STRATEGY",
+                "words": [
+                    "kế hoạch",
+                    "chiến thuật",
+                    "tính toán",
+                    "chuẩn bị"
+                ],
+                "result": "chiến lược"
+            },
+            {
+                "id": "RISK",
+                "words": [
+                    "nguy hiểm",
+                    "rủi ro",
+                    "mạo hiểm",
+                    "đe dọa"
+                ],
+                "result": "rủi ro"
+            },
+            {
+                "id": "CONTROL",
+                "words": [
+                    "kiểm soát",
+                    "quản lý",
+                    "giám sát",
+                    "điều hành"
+                ],
+                "result": "quản trị"
+            },
+            {
+                "id": "VALUE",
+                "words": [
+                    "giá trị",
+                    "ý nghĩa",
+                    "tầm quan trọng",
+                    "lợi ích"
+                ],
+                "result": "giá trị"
+            },
+            {
+                "id": "CHANGE",
+                "words": [
+                    "đổi",
+                    "thay",
+                    "biến",
+                    "chuyển"
+                ],
+                "result": "thay đổi"
+            },
+            {
+                "id": "GOAL",
+                "words": [
+                    "mục tiêu",
+                    "đích",
+                    "ước mơ",
+                    "kỳ vọng"
+                ],
+                "result": "mục tiêu"
+            }
+        ]
+    },
+    {
+        "level": 11,
+        "mergePerGroup": 4,
+        "groups": [
+            {
+                "id": "LOGIC",
+                "words": [
+                    "đúng",
+                    "sai",
+                    "hợp lý",
+                    "vô lý"
+                ],
+                "result": "logic"
+            },
+            {
+                "id": "MEMORY",
+                "words": [
+                    "nhớ",
+                    "quên",
+                    "ghi",
+                    "lưu"
+                ],
+                "result": "trí nhớ"
+            },
+            {
+                "id": "FOCUS",
+                "words": [
+                    "tập trung",
+                    "chú ý",
+                    "quan sát",
+                    "theo dõi"
+                ],
+                "result": "tập trung"
+            },
+            {
+                "id": "SPEED_ACTION",
+                "words": [
+                    "nhanh",
+                    "phản xạ",
+                    "tức thì",
+                    "lập tức"
+                ],
+                "result": "phản ứng"
+            },
+            {
+                "id": "POWER",
+                "words": [
+                    "mạnh",
+                    "lực",
+                    "sức",
+                    "uy lực"
+                ],
+                "result": "sức mạnh"
+            },
+            {
+                "id": "BALANCE",
+                "words": [
+                    "cân bằng",
+                    "ổn định",
+                    "hài hòa",
+                    "điều chỉnh"
+                ],
+                "result": "cân bằng"
+            }
+        ]
+    },
+    {
+        "level": 12,
+        "mergePerGroup": 4,
+        "groups": [
+            {
+                "id": "LEARN",
+                "words": [
+                    "học",
+                    "hiểu",
+                    "áp dụng",
+                    "ghi nhớ"
+                ],
+                "result": "học hỏi"
+            },
+            {
+                "id": "CREATE",
+                "words": [
+                    "tạo",
+                    "làm",
+                    "xây",
+                    "sáng tác"
+                ],
+                "result": "sáng tạo"
+            },
+            {
+                "id": "FIX",
+                "words": [
+                    "sửa",
+                    "vá",
+                    "chỉnh",
+                    "khắc phục"
+                ],
+                "result": "sửa chữa"
+            },
+            {
+                "id": "BUILD",
+                "words": [
+                    "xây",
+                    "lắp",
+                    "dựng",
+                    "thiết kế"
+                ],
+                "result": "xây dựng"
+            },
+            {
+                "id": "TEST",
+                "words": [
+                    "thử",
+                    "kiểm tra",
+                    "test",
+                    "đánh giá"
+                ],
+                "result": "kiểm thử"
+            },
+            {
+                "id": "IMPROVE",
+                "words": [
+                    "nâng cấp",
+                    "cải tiến",
+                    "tối ưu",
+                    "hoàn thiện"
+                ],
+                "result": "cải thiện"
+            }
+        ]
+    },
+    {
+        "level": 13,
+        "mergePerGroup": 4,
+        "groups": [
+            {
+                "id": "INPUT",
+                "words": [
+                    "nhập",
+                    "đưa vào",
+                    "ghi",
+                    "tải"
+                ],
+                "result": "đầu vào"
+            },
+            {
+                "id": "OUTPUT",
+                "words": [
+                    "xuất",
+                    "hiện",
+                    "in",
+                    "trả"
+                ],
+                "result": "đầu ra"
+            },
+            {
+                "id": "PROCESS",
+                "words": [
+                    "xử lý",
+                    "tính",
+                    "chạy",
+                    "phân tích"
+                ],
+                "result": "xử lý"
+            },
+            {
+                "id": "SYSTEM",
+                "words": [
+                    "hệ",
+                    "module",
+                    "thành phần",
+                    "cấu trúc"
+                ],
+                "result": "hệ thống"
+            },
+            {
+                "id": "ERROR",
+                "words": [
+                    "lỗi",
+                    "bug",
+                    "sai",
+                    "hỏng"
+                ],
+                "result": "lỗi"
+            },
+            {
+                "id": "FIX_ERROR",
+                "words": [
+                    "sửa lỗi",
+                    "debug",
+                    "vá lỗi",
+                    "khắc phục"
+                ],
+                "result": "debug"
+            }
+        ]
+    },
+    {
+        "level": 14,
+        "mergePerGroup": 4,
+        "groups": [
+            {
+                "id": "CODE",
+                "words": [
+                    "code",
+                    "lập trình",
+                    "viết",
+                    "cài đặt"
+                ],
+                "result": "lập trình"
+            },
+            {
+                "id": "DATA",
+                "words": [
+                    "dữ liệu",
+                    "json",
+                    "file",
+                    "db"
+                ],
+                "result": "dữ liệu"
+            },
+            {
+                "id": "UI",
+                "words": [
+                    "giao diện",
+                    "nút",
+                    "menu",
+                    "màn hình"
+                ],
+                "result": "UI"
+            },
+            {
+                "id": "UX",
+                "words": [
+                    "trải nghiệm",
+                    "cảm giác",
+                    "thuận tiện",
+                    "dễ dùng"
+                ],
+                "result": "UX"
+            },
+            {
+                "id": "GAME",
+                "words": [
+                    "chơi",
+                    "level",
+                    "điểm",
+                    "thưởng"
+                ],
+                "result": "trò chơi"
+            },
+            {
+                "id": "ENGINE",
+                "words": [
+                    "unity",
+                    "cocos",
+                    "engine",
+                    "framework"
+                ],
+                "result": "game engine"
+            }
+        ]
+    },
+    {
+        "level": 15,
+        "mergePerGroup": 4,
+        "groups": [
+            {
+                "id": "PLAN",
+                "words": [
+                    "lên kế hoạch",
+                    "chuẩn bị",
+                    "sắp xếp",
+                    "dự tính"
+                ],
+                "result": "kế hoạch"
+            },
+            {
+                "id": "TIME_MANAGE",
+                "words": [
+                    "đúng giờ",
+                    "trễ",
+                    "deadline",
+                    "hạn"
+                ],
+                "result": "quản lý thời gian"
+            },
+            {
+                "id": "FOCUS_WORK",
+                "words": [
+                    "tập trung",
+                    "chuyên tâm",
+                    "chú ý",
+                    "dồn lực"
+                ],
+                "result": "tập trung"
+            },
+            {
+                "id": "PRESSURE",
+                "words": [
+                    "áp lực",
+                    "căng thẳng",
+                    "stress",
+                    "mệt"
+                ],
+                "result": "áp lực"
+            },
+            {
+                "id": "RELAX",
+                "words": [
+                    "nghỉ",
+                    "thư giãn",
+                    "xả",
+                    "giải trí"
+                ],
+                "result": "thư giãn"
+            },
+            {
+                "id": "LIFE",
+                "words": [
+                    "sống",
+                    "sinh hoạt",
+                    "ngày",
+                    "đêm"
+                ],
+                "result": "cuộc sống"
+            }
+        ]
+    },
+    {
+        "level": 16,
+        "mergePerGroup": 4,
+        "groups": [
+            {
+                "id": "FRIEND",
+                "words": [
+                    "bạn",
+                    "bè",
+                    "đồng đội",
+                    "đồng hành"
+                ],
+                "result": "bạn bè"
+            },
+            {
+                "id": "FAMILY",
+                "words": [
+                    "cha",
+                    "mẹ",
+                    "anh",
+                    "em"
+                ],
+                "result": "gia đình"
+            },
+            {
+                "id": "SOCIETY",
+                "words": [
+                    "xã hội",
+                    "cộng đồng",
+                    "tập thể",
+                    "con người"
+                ],
+                "result": "xã hội"
+            },
+            {
+                "id": "TRUST",
+                "words": [
+                    "tin",
+                    "tin tưởng",
+                    "niềm tin",
+                    "uy tín"
+                ],
+                "result": "niềm tin"
+            },
+            {
+                "id": "HELP",
+                "words": [
+                    "giúp",
+                    "hỗ trợ",
+                    "cứu",
+                    "đỡ"
+                ],
+                "result": "giúp đỡ"
+            },
+            {
+                "id": "CARE",
+                "words": [
+                    "quan tâm",
+                    "chăm sóc",
+                    "để ý",
+                    "lo lắng"
+                ],
+                "result": "quan tâm"
+            }
+        ]
+    },
+    {
+        "level": 17,
+        "mergePerGroup": 4,
+        "groups": [
+            {
+                "id": "CHOICE",
+                "words": [
+                    "chọn",
+                    "quyết",
+                    "lựa",
+                    "phán đoán"
+                ],
+                "result": "lựa chọn"
+            },
+            {
+                "id": "RESULT",
+                "words": [
+                    "kết quả",
+                    "thành quả",
+                    "đầu ra",
+                    "kết luận"
+                ],
+                "result": "kết quả"
+            },
+            {
+                "id": "REASON",
+                "words": [
+                    "lý do",
+                    "nguyên nhân",
+                    "căn cứ",
+                    "cơ sở"
+                ],
+                "result": "nguyên nhân"
+            },
+            {
+                "id": "EFFECT",
+                "words": [
+                    "hậu quả",
+                    "ảnh hưởng",
+                    "tác động",
+                    "kết cục"
+                ],
+                "result": "hệ quả"
+            },
+            {
+                "id": "PROCESS_LONG",
+                "words": [
+                    "dài",
+                    "phức tạp",
+                    "nhiều bước",
+                    "liên tục"
+                ],
+                "result": "quy trình"
+            },
+            {
+                "id": "END",
+                "words": [
+                    "kết thúc",
+                    "xong",
+                    "hoàn tất",
+                    "xong xuôi"
+                ],
+                "result": "kết thúc"
+            }
+        ]
+    },
+    {
+        "level": 18,
+        "mergePerGroup": 4,
+        "groups": [
+            {
+                "id": "LEAD",
+                "words": [
+                    "dẫn dắt",
+                    "chỉ đạo",
+                    "lãnh đạo",
+                    "định hướng"
+                ],
+                "result": "lãnh đạo"
+            },
+            {
+                "id": "FOLLOW",
+                "words": [
+                    "theo",
+                    "tuân theo",
+                    "làm theo",
+                    "bắt chước"
+                ],
+                "result": "theo sau"
+            },
+            {
+                "id": "RULE_TEAM",
+                "words": [
+                    "luật",
+                    "nội quy",
+                    "quy tắc",
+                    "nguyên tắc"
+                ],
+                "result": "kỷ luật"
+            },
+            {
+                "id": "ORDER",
+                "words": [
+                    "thứ tự",
+                    "sắp xếp",
+                    "xếp hàng",
+                    "trình tự"
+                ],
+                "result": "trật tự"
+            },
+            {
+                "id": "CHAOS",
+                "words": [
+                    "lộn xộn",
+                    "rối",
+                    "bừa",
+                    "mất trật tự"
+                ],
+                "result": "hỗn loạn"
+            },
+            {
+                "id": "CONTROL_TEAM",
+                "words": [
+                    "kiểm soát",
+                    "giám sát",
+                    "quản lý",
+                    "điều phối"
+                ],
+                "result": "điều hành"
+            }
+        ]
+    },
+    {
+        "level": 19,
+        "mergePerGroup": 4,
+        "groups": [
+            {
+                "id": "IDEA",
+                "words": [
+                    "ý tưởng",
+                    "suy nghĩ",
+                    "ý kiến",
+                    "đề xuất"
+                ],
+                "result": "ý tưởng"
+            },
+            {
+                "id": "PLAN_DETAIL",
+                "words": [
+                    "chi tiết",
+                    "cụ thể",
+                    "rõ ràng",
+                    "đầy đủ"
+                ],
+                "result": "chi tiết"
+            },
+            {
+                "id": "ABSTRACT",
+                "words": [
+                    "trừu tượng",
+                    "khó hiểu",
+                    "chung chung",
+                    "mơ hồ"
+                ],
+                "result": "trừu tượng"
+            },
+            {
+                "id": "REAL",
+                "words": [
+                    "thực tế",
+                    "thật",
+                    "hiện hữu",
+                    "cụ thể"
+                ],
+                "result": "thực tế"
+            },
+            {
+                "id": "COMPARE",
+                "words": [
+                    "so sánh",
+                    "đối chiếu",
+                    "phân biệt",
+                    "nhận xét"
+                ],
+                "result": "so sánh"
+            },
+            {
+                "id": "DECIDE",
+                "words": [
+                    "quyết",
+                    "chốt",
+                    "định",
+                    "kết luận"
+                ],
+                "result": "quyết định"
+            }
+        ]
+    },
+    {
+        "level": 20,
+        "mergePerGroup": 4,
+        "groups": [
+            {
+                "id": "FAST_THINK",
+                "words": [
+                    "nhanh",
+                    "tức thì",
+                    "phản xạ",
+                    "chớp nhoáng"
+                ],
+                "result": "phản xạ"
+            },
+            {
+                "id": "SLOW_THINK",
+                "words": [
+                    "chậm",
+                    "từ từ",
+                    "suy xét",
+                    "cẩn thận"
+                ],
+                "result": "suy xét"
+            },
+            {
+                "id": "DETAIL",
+                "words": [
+                    "chi tiết",
+                    "tỉ mỉ",
+                    "kỹ",
+                    "cẩn thận"
+                ],
+                "result": "tỉ mỉ"
+            },
+            {
+                "id": "OVERVIEW",
+                "words": [
+                    "tổng quan",
+                    "toàn cảnh",
+                    "bao quát",
+                    "chung"
+                ],
+                "result": "tổng quan"
+            },
+            {
+                "id": "FOCUS_GOAL",
+                "words": [
+                    "mục tiêu",
+                    "đích",
+                    "trọng tâm",
+                    "chính"
+                ],
+                "result": "trọng tâm"
+            },
+            {
+                "id": "DISTRACT",
+                "words": [
+                    "xao nhãng",
+                    "phân tâm",
+                    "mất tập trung",
+                    "lạc"
+                ],
+                "result": "phân tâm"
+            }
+        ]
+    },
+    {
+        "level": 21,
+        "mergePerGroup": 4,
+        "groups": [
+            {
+                "id": "QUALITY",
+                "words": [
+                    "chất lượng",
+                    "tốt",
+                    "chuẩn",
+                    "đạt"
+                ],
+                "result": "chất lượng"
+            },
+            {
+                "id": "QUANTITY",
+                "words": [
+                    "số lượng",
+                    "nhiều",
+                    "ít",
+                    "đếm"
+                ],
+                "result": "số lượng"
+            },
+            {
+                "id": "PRIORITY",
+                "words": [
+                    "ưu tiên",
+                    "quan trọng",
+                    "chính",
+                    "trước"
+                ],
+                "result": "ưu tiên"
+            },
+            {
+                "id": "OPTION",
+                "words": [
+                    "lựa chọn",
+                    "phương án",
+                    "tùy chọn",
+                    "option"
+                ],
+                "result": "phương án"
+            },
+            {
+                "id": "LIMIT",
+                "words": [
+                    "giới hạn",
+                    "hạn chế",
+                    "trần",
+                    "mức"
+                ],
+                "result": "giới hạn"
+            },
+            {
+                "id": "FREEDOM",
+                "words": [
+                    "tự do",
+                    "thoải mái",
+                    "không ràng buộc",
+                    "linh hoạt"
+                ],
+                "result": "tự do"
+            }
+        ]
+    },
+    {
+        "level": 22,
+        "mergePerGroup": 4,
+        "groups": [
+            {
+                "id": "RULE_ABSTRACT",
+                "words": [
+                    "quy luật",
+                    "nguyên lý",
+                    "định luật",
+                    "logic"
+                ],
+                "result": "quy luật"
+            },
+            {
+                "id": "EXAMPLE",
+                "words": [
+                    "ví dụ",
+                    "minh họa",
+                    "case",
+                    "trường hợp"
+                ],
+                "result": "ví dụ"
+            },
+            {
+                "id": "THEORY",
+                "words": [
+                    "lý thuyết",
+                    "khái niệm",
+                    "định nghĩa",
+                    "mô hình"
+                ],
+                "result": "lý thuyết"
+            },
+            {
+                "id": "PRACTICE",
+                "words": [
+                    "thực hành",
+                    "áp dụng",
+                    "làm",
+                    "triển khai"
+                ],
+                "result": "thực hành"
+            },
+            {
+                "id": "CHECK",
+                "words": [
+                    "kiểm tra",
+                    "đối chiếu",
+                    "soát",
+                    "xem"
+                ],
+                "result": "kiểm tra"
+            },
+            {
+                "id": "CONFIRM",
+                "words": [
+                    "xác nhận",
+                    "chốt",
+                    "đồng ý",
+                    "duyệt"
+                ],
+                "result": "xác nhận"
+            }
+        ]
+    },
+    {
+        "level": 23,
+        "mergePerGroup": 4,
+        "groups": [
+            {
+                "id": "START",
+                "words": [
+                    "bắt đầu",
+                    "khởi động",
+                    "mở",
+                    "start"
+                ],
+                "result": "bắt đầu"
+            },
+            {
+                "id": "PROGRESS",
+                "words": [
+                    "tiến triển",
+                    "tiến độ",
+                    "đi lên",
+                    "phát triển"
+                ],
+                "result": "tiến trình"
+            },
+            {
+                "id": "PAUSE",
+                "words": [
+                    "tạm dừng",
+                    "ngưng",
+                    "dừng",
+                    "chờ"
+                ],
+                "result": "tạm dừng"
+            },
+            {
+                "id": "RESUME",
+                "words": [
+                    "tiếp tục",
+                    "làm lại",
+                    "resume",
+                    "chạy lại"
+                ],
+                "result": "tiếp tục"
+            },
+            {
+                "id": "FINISH",
+                "words": [
+                    "kết thúc",
+                    "hoàn thành",
+                    "xong",
+                    "done"
+                ],
+                "result": "hoàn thành"
+            },
+            {
+                "id": "RESTART",
+                "words": [
+                    "làm lại",
+                    "reset",
+                    "chạy lại",
+                    "bắt đầu lại"
+                ],
+                "result": "làm lại"
+            }
+        ]
+    },
+    {
+        "level": 24,
+        "mergePerGroup": 4,
+        "groups": [
+            {
+                "id": "CAUSE",
+                "words": [
+                    "nguyên nhân",
+                    "lý do",
+                    "căn nguyên",
+                    "gốc"
+                ],
+                "result": "nguyên nhân"
+            },
+            {
+                "id": "EFFECT_ADV",
+                "words": [
+                    "kết quả",
+                    "hậu quả",
+                    "tác động",
+                    "ảnh hưởng"
+                ],
+                "result": "hệ quả"
+            },
+            {
+                "id": "CHAIN",
+                "words": [
+                    "liên tiếp",
+                    "chuỗi",
+                    "nối",
+                    "liên hoàn"
+                ],
+                "result": "chuỗi"
+            },
+            {
+                "id": "BREAK",
+                "words": [
+                    "ngắt",
+                    "dừng",
+                    "phá",
+                    "cắt"
+                ],
+                "result": "ngắt quãng"
+            },
+            {
+                "id": "LOOP",
+                "words": [
+                    "lặp",
+                    "quay vòng",
+                    "lặp lại",
+                    "chu kỳ"
+                ],
+                "result": "vòng lặp"
+            },
+            {
+                "id": "FLOW",
+                "words": [
+                    "luồng",
+                    "dòng",
+                    "chảy",
+                    "liên tục"
+                ],
+                "result": "luồng"
+            }
+        ]
+    },
+    {
+        "level": 25,
+        "mergePerGroup": 4,
+        "groups": [
+            {
+                "id": "STRUCTURE",
+                "words": [
+                    "cấu trúc",
+                    "bố cục",
+                    "khung",
+                    "nền"
+                ],
+                "result": "cấu trúc"
+            },
+            {
+                "id": "LAYER",
+                "words": [
+                    "lớp",
+                    "tầng",
+                    "level",
+                    "bề mặt"
+                ],
+                "result": "lớp"
+            },
+            {
+                "id": "CORE",
+                "words": [
+                    "lõi",
+                    "trung tâm",
+                    "cốt",
+                    "gốc"
+                ],
+                "result": "cốt lõi"
+            },
+            {
+                "id": "EDGE",
+                "words": [
+                    "viền",
+                    "mép",
+                    "rìa",
+                    "biên"
+                ],
+                "result": "rìa"
+            },
+            {
+                "id": "DETAIL_PART",
+                "words": [
+                    "chi tiết",
+                    "phần",
+                    "mảnh",
+                    "nhánh"
+                ],
+                "result": "chi tiết"
+            },
+            {
+                "id": "WHOLE",
+                "words": [
+                    "tổng thể",
+                    "toàn bộ",
+                    "trọn",
+                    "đầy đủ"
+                ],
+                "result": "tổng thể"
+            }
+        ]
+    },
+    {
+        "level": 26,
+        "mergePerGroup": 4,
+        "groups": [
+            {
+                "id": "INPUT_USER",
+                "words": [
+                    "chạm",
+                    "nhấn",
+                    "kéo",
+                    "thả"
+                ],
+                "result": "tương tác"
+            },
+            {
+                "id": "FEEDBACK",
+                "words": [
+                    "phản hồi",
+                    "rung",
+                    "âm thanh",
+                    "hiệu ứng"
+                ],
+                "result": "phản hồi"
+            },
+            {
+                "id": "RESPONSE",
+                "words": [
+                    "phản ứng",
+                    "trả lời",
+                    "đáp",
+                    "hồi"
+                ],
+                "result": "phản ứng"
+            },
+            {
+                "id": "EXPECT",
+                "words": [
+                    "kỳ vọng",
+                    "mong",
+                    "hy vọng",
+                    "trông chờ"
+                ],
+                "result": "kỳ vọng"
+            },
+            {
+                "id": "SURPRISE",
+                "words": [
+                    "bất ngờ",
+                    "ngạc nhiên",
+                    "đột ngột",
+                    "shock"
+                ],
+                "result": "bất ngờ"
+            },
+            {
+                "id": "SATISFY",
+                "words": [
+                    "hài lòng",
+                    "thỏa mãn",
+                    "vừa ý",
+                    "ok"
+                ],
+                "result": "hài lòng"
+            }
+        ]
+    },
+    {
+        "level": 27,
+        "mergePerGroup": 4,
+        "groups": [
+            {
+                "id": "PATTERN",
+                "words": [
+                    "mẫu",
+                    "pattern",
+                    "lặp",
+                    "kiểu"
+                ],
+                "result": "mẫu"
+            },
+            {
+                "id": "RANDOM",
+                "words": [
+                    "ngẫu nhiên",
+                    "random",
+                    "bất kỳ",
+                    "may rủi"
+                ],
+                "result": "ngẫu nhiên"
+            },
+            {
+                "id": "ORDERED",
+                "words": [
+                    "có thứ tự",
+                    "tuần tự",
+                    "theo hàng",
+                    "xếp"
+                ],
+                "result": "thứ tự"
+            },
+            {
+                "id": "UNORDERED",
+                "words": [
+                    "lộn xộn",
+                    "không thứ tự",
+                    "tự do",
+                    "rải"
+                ],
+                "result": "không thứ tự"
+            },
+            {
+                "id": "FIXED",
+                "words": [
+                    "cố định",
+                    "đóng",
+                    "khóa",
+                    "không đổi"
+                ],
+                "result": "cố định"
+            },
+            {
+                "id": "DYNAMIC",
+                "words": [
+                    "động",
+                    "thay đổi",
+                    "linh hoạt",
+                    "biến"
+                ],
+                "result": "động"
+            }
+        ]
+    },
+    {
+        "level": 28,
+        "mergePerGroup": 4,
+        "groups": [
+            {
+                "id": "DIFFICULTY",
+                "words": [
+                    "dễ",
+                    "khó",
+                    "vừa",
+                    "thử thách"
+                ],
+                "result": "độ khó"
+            },
+            {
+                "id": "PROGRESS_SYSTEM",
+                "words": [
+                    "tiến trình",
+                    "mở khóa",
+                    "nâng cấp",
+                    "level"
+                ],
+                "result": "tiến trình"
+            },
+            {
+                "id": "REWARD",
+                "words": [
+                    "thưởng",
+                    "quà",
+                    "điểm",
+                    "phần thưởng"
+                ],
+                "result": "phần thưởng"
+            },
+            {
+                "id": "PENALTY",
+                "words": [
+                    "phạt",
+                    "trừ",
+                    "mất",
+                    "giảm"
+                ],
+                "result": "hình phạt"
+            },
+            {
+                "id": "ACHIEVE",
+                "words": [
+                    "đạt",
+                    "hoàn thành",
+                    "unlock",
+                    "mở"
+                ],
+                "result": "đạt được"
+            },
+            {
+                "id": "FAIL_SYSTEM",
+                "words": [
+                    "thua",
+                    "fail",
+                    "chết",
+                    "game over"
+                ],
+                "result": "thất bại"
+            }
+        ]
+    },
+    {
+        "level": 29,
+        "mergePerGroup": 4,
+        "groups": [
+            {
+                "id": "MOTIVATION",
+                "words": [
+                    "động lực",
+                    "khích lệ",
+                    "thúc đẩy",
+                    "cảm hứng"
+                ],
+                "result": "động lực"
+            },
+            {
+                "id": "GOAL_LONG",
+                "words": [
+                    "mục tiêu dài",
+                    "kế hoạch lớn",
+                    "tương lai",
+                    "định hướng"
+                ],
+                "result": "định hướng"
+            },
+            {
+                "id": "DISCIPLINE",
+                "words": [
+                    "kỷ luật",
+                    "nguyên tắc",
+                    "tuân thủ",
+                    "nề nếp"
+                ],
+                "result": "kỷ luật"
+            },
+            {
+                "id": "HABIT",
+                "words": [
+                    "thói quen",
+                    "lặp lại",
+                    "hàng ngày",
+                    "đều"
+                ],
+                "result": "thói quen"
+            },
+            {
+                "id": "CONSISTENT",
+                "words": [
+                    "đều đặn",
+                    "liên tục",
+                    "ổn định",
+                    "bền"
+                ],
+                "result": "kiên trì"
+            },
+            {
+                "id": "RESULT_LONG",
+                "words": [
+                    "kết quả lớn",
+                    "thành quả",
+                    "trái ngọt",
+                    "đạt"
+                ],
+                "result": "thành quả"
+            }
+        ]
+    },
+    {
+        "level": 30,
+        "mergePerGroup": 4,
+        "groups": [
+            {
+                "id": "BEGINNER",
+                "words": [
+                    "mới",
+                    "bắt đầu",
+                    "chưa biết",
+                    "non"
+                ],
+                "result": "người mới"
+            },
+            {
+                "id": "INTERMEDIATE",
+                "words": [
+                    "quen",
+                    "biết",
+                    "đã học",
+                    "có kinh nghiệm"
+                ],
+                "result": "trung cấp"
+            },
+            {
+                "id": "EXPERT",
+                "words": [
+                    "giỏi",
+                    "thành thạo",
+                    "chuyên",
+                    "cao cấp"
+                ],
+                "result": "chuyên gia"
+            },
+            {
+                "id": "MASTERY",
+                "words": [
+                    "thuần thục",
+                    "đỉnh",
+                    "bậc thầy",
+                    "master"
+                ],
+                "result": "thông thạo"
+            },
+            {
+                "id": "JOURNEY",
+                "words": [
+                    "hành trình",
+                    "con đường",
+                    "quá trình",
+                    "chặng"
+                ],
+                "result": "hành trình"
+            },
+            {
+                "id": "COMPLETE",
+                "words": [
+                    "hoàn tất",
+                    "xong",
+                    "đầy đủ",
+                    "trọn vẹn"
+                ],
+                "result": "hoàn thành"
+            }
+        ]
+    }
+]
