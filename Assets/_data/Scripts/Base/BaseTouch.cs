@@ -9,7 +9,7 @@ public class BaseTouch : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, 
 
     // Properties để các class con check trạng thái
     public bool IsDragging { get; private set; }
-    public bool IsTouching { get; private set; }
+    public bool IsTouching { get; private set; } 
 
     // --- 1. TOUCH START (Khi ngón tay vừa chạm vào) ---
     public void OnPointerDown(PointerEventData eventData)

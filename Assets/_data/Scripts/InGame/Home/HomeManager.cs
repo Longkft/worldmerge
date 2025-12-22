@@ -12,6 +12,8 @@ public class HomeManager : Singleton<HomeManager>
         this.levelCurrent = data.progress.currentLevelIndex;
 
         this.LoadDataLevelIndex();
+
+        UiManager.Instance.SceneHome();
     }
 
     protected void LoadDataLevelIndex()
