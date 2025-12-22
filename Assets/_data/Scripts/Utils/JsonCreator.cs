@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class LevelLoader : MonoBehaviour
+public class LevelLoader : Singleton<LevelLoader>
 {
     void Start()
     {
