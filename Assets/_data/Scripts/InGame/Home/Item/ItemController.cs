@@ -2,14 +2,22 @@
 
 public class ItemController : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private ItemUI uiItem;
     [SerializeField] private ItemButton btnItem;
 
+    // Dữ liệu
     public ItemData Data { get; private set; }
-
-    // Slot "chủ nhân" hiện tại (Logic)
     private SlotNode _ownerSlot;
+
+    [Header("Settings")]
+    // Kéo chọn Layer "Slot" vào đây trong Inspector
+    [SerializeField] private LayerMask slotLayer;
+
+    // Biến tính toán kéo thả
     private Vector3 _dragOffset;
+    private Vector3 _startDragPos; // Lưu vị trí gốc để nếu thả sai thì bay về
+    private int zIndex = 0;
 
     // --- SETUP ---
     public void Setup(ItemData data, SlotNode ownerSlot)
@@ -25,68 +33,70 @@ public class ItemController : MonoBehaviour
 
         if (btnItem != null)
         {
-            btnItem.Init(this);
+            btnItem.Init(this); // Kết nối với nút bấm
         }
     }
 
-    // Gọi khi GridManager tạo ra item, hoặc khi Swap xong
     public void SetOwnerSlot(SlotNode slot)
     {
         _ownerSlot = slot;
     }
 
-    // --- LOGIC KÉO THẢ (Được gọi từ ItemButton) ---
+    // --- CÁC HÀM XỬ LÝ KÉO THẢ (Được gọi từ ItemButton) ---
 
     public void OnBeginDrag()
     {
-        // 1. Đưa layer lên cao nhất (ví dụ +100)
-        if (uiItem) uiItem.SetSortingOrder(uiItem.GetDefaultSortingOrder() + 100);
+        // 1. Lưu vị trí hiện tại để nếu kéo sai còn biết đường quay về
+        _startDragPos = transform.position;
 
-        // 2. Tính offset để kéo mượt (không bị giật về tâm chuột)
-        Vector3 mousePos = GetWorldMousePos();
-        _dragOffset = transform.position - mousePos;
+        // 2. Đưa layer lên cao nhất để không bị các item khác che
+        if (uiItem) uiItem.SetSortingOrder(this.zIndex); // Giả sử hàm này bạn đã viết trong ItemUI
+
+        // 3. Tính Offset: Giữ khoảng cách giữa tâm vật và con trỏ chuột
+        _dragOffset = transform.position - GetWorldMousePos();
     }
 
     public void OnDrag()
     {
-        // Di chuyển theo chuột
-        Vector3 mousePos = GetWorldMousePos();
-        transform.position = mousePos + _dragOffset;
+        // Di chuyển vật theo chuột (cộng thêm offset để không bị giật)
+        transform.position = GetWorldMousePos() + _dragOffset;
+        this.zIndex = (int)transform.position.z;
     }
 
     public void OnEndDrag()
     {
-        // 1. Trả lại layer cũ
-        if (uiItem) uiItem.SetSortingOrder(uiItem.GetDefaultSortingOrder());
+        // 1. Trả lại layer cũ (Ví dụ về 0 hoặc theo slot)
+        if (uiItem) uiItem.SetSortingOrder(this.zIndex);
 
-        // 2. Bắn Raycast kiểm tra xem thả vào đâu
+        // 2. Logic kiểm tra thả vào Slot nào (giữ nguyên logic cũ của bạn)
         CheckDropTarget();
     }
 
     private void CheckDropTarget()
     {
-        // Raycast tại vị trí hiện tại của Item
-        Collider2D hit = Physics2D.OverlapPoint(transform.position);
+        // QUAN TRỌNG: Thêm tham số slotLayer vào hàm OverlapPoint
+        // Lúc này tia Raycast sẽ nhìn xuyên qua Item và chỉ chặn lại khi gặp Slot
+        Collider2D hit = Physics2D.OverlapPoint(transform.position, slotLayer);
+
+        /*Debug.Log($"hit: {hit.name}");*/
 
         if (hit != null)
         {
-            // Tìm component SlotNode trên vật bị va chạm
+            // Vì đã lọc layer Slot rồi, nên cái hit chắc chắn là Slot (hoặc null)
             SlotNode targetSlot = hit.GetComponent<SlotNode>();
 
-            // Nếu trúng slot khác và slot đó không phải là slot hiện tại của mình
+            Debug.Log($"targetSlot: {targetSlot.name}");
             if (targetSlot != null && targetSlot != _ownerSlot)
             {
-                // GỌI SWAP DATA
-                // Lưu ý: Hàm này sẽ hoán đổi Data giữa _ownerSlot và targetSlot
-                // Sau khi swap, Visual sẽ tự cập nhật nội dung chữ
-                /*GameManager.Instance.SwapSlots(_ownerSlot, targetSlot);*/ // tạm tắt
+                Debug.Log($"Thả vào slot: {targetSlot.name}");
 
-                // Swap xong thì nhiệm vụ kết thúc, ItemController này sẽ ở yên tại chỗ (về mặt logic)
-                // nhưng hiển thị nội dung mới. Vị trí visual cần bay về slot chủ.
+                // GỌI LOGIC SWAP Ở ĐÂY
+                // GameManager.Instance.SwapSlots(_ownerSlot, targetSlot);
+                return;
             }
         }
 
-        // Dù swap hay không, visual cũng phải bay về vị trí của Slot chủ nhân
+        // Không trúng Slot nào -> Về chỗ cũ
         MoveToOwnerPosition();
     }
 
@@ -94,19 +104,30 @@ public class ItemController : MonoBehaviour
     {
         if (_ownerSlot != null)
         {
-            // Nếu có DOTween
-            // transform.DOMove(_ownerSlot.transform.position, 0.2f);
-
-            // Nếu không dùng plugin:
+            // Reset về vị trí của Slot
             transform.position = _ownerSlot.transform.position;
+        }
+        else
+        {
+            // Fallback: Về vị trí lúc bắt đầu kéo
+            transform.position = _startDragPos;
         }
     }
 
+    // --- HÀM QUAN TRỌNG NHẤT: LẤY TỌA ĐỘ CHUỘT CHUẨN ---
     private Vector3 GetWorldMousePos()
     {
-        Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 screenPoint = Input.mousePosition;
 
-        pos.z = 0;
-        return pos;
+        // BẮT BUỘC: Tính khoảng cách Z từ Camera đến vật
+        // Nếu Camera Z = -10, Vật Z = 0 -> distance = 10
+        screenPoint.z = Mathf.Abs(Camera.main.transform.position.z - transform.position.z);
+
+        Vector3 worldPos = Camera.main.ScreenToWorldPoint(screenPoint);
+
+        // Khóa Z lại bằng Z của vật để nó không bay lung tung
+        worldPos.z = transform.position.z;
+
+        return worldPos;
     }
 }

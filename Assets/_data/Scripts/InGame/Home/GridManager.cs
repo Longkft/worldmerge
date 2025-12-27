@@ -16,6 +16,8 @@ public class GridManager : Singleton<GridManager>
     private List<SlotNode> _spawnedSlots = new List<SlotNode>();
     private List<ItemController> _spawnedItems = new List<ItemController>();
 
+    private float VEC_UNDER_MAP = 0.3f;
+
     public void GenerateGrid(MergeLevel levelData)
     {
         ClearGrid();
@@ -44,7 +46,7 @@ public class GridManager : Singleton<GridManager>
 
         float gridWidth = (columns - 1) * xSpacing;
         float gridHeight = (rows - 1) * ySpacing;
-        Vector2 startPos = new Vector2(-gridWidth / 2, gridHeight / 2);
+        Vector2 startPos = new Vector2(-gridWidth / 2, (gridHeight / 2) - this.VEC_UNDER_MAP);
 
         // ============================================================
         // PHA 1: XÂY BÀN CỜ (SPAWN SLOTS)
@@ -61,7 +63,7 @@ public class GridManager : Singleton<GridManager>
 
             float posX = startPos.x + (col * xSpacing);
             float posY = startPos.y - (row * ySpacing);
-            Vector3 spawnPos = new Vector3(posX, posY, 0);
+            Vector3 spawnPos = new Vector3(posX, posY, 2);
 
             // Tạo Slot
             SlotNode newSlot = Instantiate(PrefabManager.Instance.ItemSlot, spawnPos, Quaternion.identity, container).GetComponent<SlotNode>();
@@ -83,9 +85,11 @@ public class GridManager : Singleton<GridManager>
 
             // Lấy cái Slot tương ứng tại vị trí i ra
             SlotNode targetSlot = _spawnedSlots[i];
+            Vector3 pos = targetSlot.transform.position;
+            Vector3 spawnPos = new Vector3(pos.x, pos.y, pos.z - 1);
 
             // Tạo Item tại vị trí của Slot đó
-            GameObject newItemObj = Instantiate(PrefabManager.Instance.ItemGame, targetSlot.transform.position, Quaternion.identity, containerItem);
+            GameObject newItemObj = Instantiate(PrefabManager.Instance.ItemGame, spawnPos, Quaternion.identity, containerItem);
             newItemObj.name = $"Item_{allItemsToSpawn[i].word}";
 
             // Setup và Liên kết
@@ -130,7 +134,7 @@ public class GridManager : Singleton<GridManager>
         int rows = Mathf.CeilToInt((float)demoCount / columns);
         float gridWidth = (columns - 1) * xSpacing;
         float gridHeight = (rows - 1) * ySpacing;
-        Vector2 startPos = new Vector2(-gridWidth / 2, gridHeight / 2);
+        Vector2 startPos = new Vector2(-gridWidth / 2, (gridHeight / 2) - this.VEC_UNDER_MAP);
 
         for (int i = 0; i < demoCount; i++)
         {

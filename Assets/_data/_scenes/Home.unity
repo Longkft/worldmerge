@@ -885,8 +885,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GridManager
   columns: 4
-  xSpacing: 1
-  ySpacing: 1
+  xSpacing: 1.2
+  ySpacing: 0.9
   container: {fileID: 1360082212}
   containerItem: {fileID: 1417246632}
 --- !u!1 &276534694
