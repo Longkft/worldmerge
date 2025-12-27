@@ -12,8 +12,8 @@ public class ItemUI : MonoBehaviour
 
     private void Awake()
     {
-        // Lưu lại layer gốc để khi thả ra thì trả về như cũ
-        if (bgRendererNone) _defaultSortingOrder = bgRendererNone.sortingOrder;
+        /*// Lưu lại layer gốc để khi thả ra thì trả về như cũ
+        if (bgRendererNone) _defaultSortingOrder = bgRendererNone.sortingOrder;*/
     }
 
     public void InitUi()
@@ -23,8 +23,16 @@ public class ItemUI : MonoBehaviour
         textWord.gameObject.SetActive(true);
         dataIcon.gameObject.SetActive(false);
 
-        // Reset layer
-        SetSortingOrder(_defaultSortingOrder);
+       /* // Reset layer
+        SetSortingOrder(_defaultSortingOrder);*/
+    }
+
+    public void SetCompletedState()
+    {
+        if (bgRendererNone) bgRendererNone.gameObject.SetActive(false); // Tắt bg1
+        if (bgRendererActive) bgRendererActive.gameObject.SetActive(true); // Bật bg2
+
+        // Nếu muốn đổi màu chữ hoặc icon thì thêm ở đây
     }
 
     public void SetDataText(string text)
@@ -46,11 +54,11 @@ public class ItemUI : MonoBehaviour
     public void SetSortingOrder(int order)
     {
         // Đưa tất cả lên lớp trên cùng để không bị che bởi Slot khác
-        if (bgRendererNone) bgRendererNone.sortingOrder = order;
+        /*if (bgRendererNone) bgRendererNone.sortingOrder = order;
         if (bgRendererActive) bgRendererActive.sortingOrder = order;
         if (textWord) textWord.sortingOrder = order + 1;
-        if (dataIcon) dataIcon.sortingOrder = order + 1;
+        if (dataIcon) dataIcon.sortingOrder = order + 1;*/
     }
 
-    public int GetDefaultSortingOrder() => _defaultSortingOrder;
+    /*public int GetDefaultSortingOrder() => _defaultSortingOrder;*/
 }

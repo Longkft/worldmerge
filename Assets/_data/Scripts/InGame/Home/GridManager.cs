@@ -18,6 +18,9 @@ public class GridManager : Singleton<GridManager>
 
     private float VEC_UNDER_MAP = 0.3f;
 
+    // lưu lại số hàng (tính toán ở GenerateGrid)
+    private int _totalRows;
+
     public void GenerateGrid(MergeLevel levelData)
     {
         ClearGrid();
@@ -55,6 +58,8 @@ public class GridManager : Singleton<GridManager>
         // Chúng ta tạo đủ số lượng Slot cho lưới (rows * columns)
         // Kể cả khi không có Item, Slot vẫn nằm đó.
         int totalSlots = rows * columns;
+        // Lưu lại số hàng để dùng cho CheckMatch
+        _totalRows = rows;
 
         for (int i = 0; i < totalSlots; i++)
         {
@@ -68,7 +73,7 @@ public class GridManager : Singleton<GridManager>
             // Tạo Slot
             SlotNode newSlot = Instantiate(PrefabManager.Instance.ItemSlot, spawnPos, Quaternion.identity, container).GetComponent<SlotNode>();
             newSlot.name = $"Slot_{row}_{col}";
-            // newSlot.Init(row, col);
+            newSlot.Init(row, col);
 
             // Lưu vào list để tí nữa dùng
             _spawnedSlots.Add(newSlot);
@@ -98,6 +103,10 @@ public class GridManager : Singleton<GridManager>
             {
                 // Truyền Data và cái Slot đã lấy được ở trên vào
                 ctrl.Setup(allItemsToSpawn[i], targetSlot);
+
+                // --- Slot biết Item ---
+                targetSlot.LinkController(ctrl);
+
                 _spawnedItems.Add(ctrl);
             }
         }
@@ -145,6 +154,122 @@ public class GridManager : Singleton<GridManager>
 
             // Vẽ ô vuông đại diện
             Gizmos.DrawWireCube(new Vector3(posX, posY, 0), new Vector3(1, 1, 0));
+        }
+    }
+
+    // Thêm hàm này vào GridManager
+    public void OnSwapItem(ItemController itemDrag, SlotNode targetSlot)
+    {
+        // 1. Lấy thông tin
+        SlotNode sourceSlot = itemDrag.GetOwnerSlot(); // Slot cũ của thằng đang kéo
+        ItemController itemTarget = targetSlot.GetController(); // Thằng đang nằm ở slot đích
+
+        // --- LƯU LẠI INDEX HÀNG TRƯỚC KHI SWAP ---
+        int sourceRowIndex = sourceSlot.Row;
+        int targetRowIndex = targetSlot.Row;
+
+        // 2. LOGIC SWAP DỮ LIỆU
+
+        // Slot đích -> nhận Item đang kéo
+        targetSlot.LinkController(itemDrag);
+
+        // Slot nguồn -> nhận Item đích (nếu có) hoặc để trống
+        if (itemTarget != null)
+        {
+            sourceSlot.LinkController(itemTarget);
+            // Bảo thằng bị đổi chỗ bay về nhà mới (Slot nguồn)
+            itemTarget.MoveToOwnerPosition();
+        }
+        else
+        {
+            // Nếu slot đích vốn trống -> Slot nguồn giờ thành trống
+            sourceSlot.LinkController(null);
+        }
+
+        // 3. LOGIC VISUAL
+        // Bảo thằng đang kéo bay về nhà mới (Slot đích)
+        itemDrag.MoveToOwnerPosition();
+
+        Debug.Log($"Swap thành công: {sourceSlot.name} <-> {targetSlot.name}");
+
+        // 4. --- CHỈ CHECK 2 HÀNG LIÊN QUAN ---
+
+        // Check hàng cũ
+        CheckSpecificRow(sourceRowIndex);
+
+        // Check hàng mới (nếu khác hàng cũ)
+        if (sourceRowIndex != targetRowIndex)
+        {
+            CheckSpecificRow(targetRowIndex);
+        }
+    }
+
+    // --- HÀM MỚI: CHỈ CHECK 1 HÀNG CỤ THỂ ---
+    private void CheckSpecificRow(int rowIndex)
+    {
+        List<ItemController> rowItems = new List<ItemController>();
+        string firstGroupId = "";
+        bool isRowFullAndSame = true;
+
+        // Duyệt qua các cột trong hàng rowIndex này thôi
+        for (int col = 0; col < columns; col++)
+        {
+            // Tính index phẳng
+            int index = rowIndex * columns + col;
+
+            if (index >= _spawnedSlots.Count)
+            {
+                isRowFullAndSame = false;
+                break;
+            }
+
+            SlotNode slot = _spawnedSlots[index];
+            ItemController item = slot.GetController();
+
+            // 1. Nếu ô trống -> Fail
+            if (item == null)
+            {
+                isRowFullAndSame = false;
+                break;
+            }
+
+            // 2. Nếu đã Locked -> Bỏ qua logic check (coi như hàng này xong rồi hoặc hỏng)
+            // Lưu ý: Nếu muốn check lại cả hàng đã xong thì bỏ dòng này, 
+            // nhưng thường xong rồi thì ko cần check nữa.
+            if (item.IsLocked)
+            {
+                isRowFullAndSame = false;
+                break;
+            }
+
+            // 3. Logic so sánh ID
+            if (col == 0)
+            {
+                firstGroupId = item.Data.groupId;
+            }
+            else
+            {
+                if (item.Data.groupId != firstGroupId)
+                {
+                    isRowFullAndSame = false;
+                    break;
+                }
+            }
+
+            rowItems.Add(item);
+        }
+
+        // KẾT QUẢ
+        if (isRowFullAndSame && rowItems.Count == columns)
+        {
+            Debug.Log($"✅ Hàng {rowIndex} hoàn thành nhóm: {firstGroupId}");
+
+            foreach (var item in rowItems)
+            {
+                item.LockItemComplete();
+            }
+
+            // TODO: Gọi Effect pháo hoa ở đây
         }
     }
 }

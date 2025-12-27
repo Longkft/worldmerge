@@ -21,8 +21,17 @@ public class SlotNode : MonoBehaviour
     public void LinkController(ItemController controller)
     {
         _linkedController = controller;
-        // Báo cho controller biết chủ nó là ai
-        controller.SetOwnerSlot(this);
+
+        // --- SỬA Ở ĐÂY: Phải check null trước khi gọi hàm ---
+        if (controller != null)
+        {
+            controller.SetOwnerSlot(this);
+        }
+    }
+
+    public ItemController GetController()
+    {
+        return _linkedController;
     }
 
     public void SetData(ItemData newData)
