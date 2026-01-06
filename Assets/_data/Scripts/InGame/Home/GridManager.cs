@@ -16,7 +16,7 @@ public class GridManager : Singleton<GridManager>
     private List<SlotNode> _spawnedSlots = new List<SlotNode>();
     private List<ItemController> _spawnedItems = new List<ItemController>();
 
-    private float VEC_UNDER_MAP = 0.3f;
+    private float VEC_UNDER_MAP = 0.2f;
 
     // lưu lại số hàng (tính toán ở GenerateGrid)
     private int _totalRows;
@@ -133,7 +133,7 @@ public class GridManager : Singleton<GridManager>
         }
     }
 
-    // Vẽ Gizmos để căn chỉnh trong Scene View (khi chưa Play)
+    /*// Vẽ Gizmos để căn chỉnh trong Scene View (khi chưa Play)
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.cyan;
@@ -155,7 +155,7 @@ public class GridManager : Singleton<GridManager>
             // Vẽ ô vuông đại diện
             Gizmos.DrawWireCube(new Vector3(posX, posY, 0), new Vector3(1, 1, 0));
         }
-    }
+    }*/
 
     // Thêm hàm này vào GridManager
     public void OnSwapItem(ItemController itemDrag, SlotNode targetSlot)
