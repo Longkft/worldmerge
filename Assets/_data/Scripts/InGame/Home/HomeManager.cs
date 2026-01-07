@@ -5,30 +5,61 @@ public class HomeManager : Singleton<HomeManager>
 {
     public SaveData data;
 
-    // 1. Biến private để lưu giá trị thực
+    // ================= LEVEL =================
     private int _levelCurrent;
-
-    // 2. Sự kiện bắn ra số level mới mỗi khi thay đổi
     public event Action<int> OnLevelChanged;
-
-    // 3. Property public để truy cập và gán
     public int LevelCurrent
     {
         get => _levelCurrent;
         set
         {
-            // Chỉ cập nhật nếu giá trị mới khác giá trị cũ (tối ưu)
             if (_levelCurrent != value)
             {
                 _levelCurrent = value;
-
-                // BẮN SỰ KIỆN NGAY LẬP TỨC!
-                // Bất kỳ ai đăng ký lắng nghe sẽ được gọi
                 OnLevelChanged?.Invoke(_levelCurrent);
-
-                // (Tùy chọn) Lưu data luôn nếu muốn
+                // Lưu data nếu cần
                 // data.progress.currentLevelIndex = _levelCurrent;
-                // DataManager.Instance.Save();
+            }
+        }
+    }
+
+    // ================= HINT (GỢI Ý) =================
+    private int _hintCount;
+    public event Action<int> OnHintChanged; // Event riêng cho Hint
+
+    public int HintCount
+    {
+        get => _hintCount;
+        set
+        {
+            if (_hintCount != value)
+            {
+                _hintCount = value;
+                // Chỉ bắn event cho ai quan tâm đến Hint
+                OnHintChanged?.Invoke(_hintCount);
+
+                // Đồng bộ ngược vào data tổng để save (Ví dụ)
+                // data.inventory.hintCount = _hintCount;
+            }
+        }
+    }
+
+    // ================= SEARCH (TÌM KIẾM) =================
+    private int _searchCount;
+    public event Action<int> OnSearchChanged; // Event riêng cho Search
+
+    public int SearchCount
+    {
+        get => _searchCount;
+        set
+        {
+            if (_searchCount != value)
+            {
+                _searchCount = value;
+                // Chỉ bắn event cho ai quan tâm đến Search
+                OnSearchChanged?.Invoke(_searchCount);
+
+                // data.inventory.searchCount = _searchCount;
             }
         }
     }
@@ -39,6 +70,8 @@ public class HomeManager : Singleton<HomeManager>
 
         this.data = await DataManager.Instance.GetDataAsync(); // lấy toàn bộ data
         this.LevelCurrent = data.progress.currentLevelIndex;
+        this.HintCount = data.progress.hints;
+        this.SearchCount = data.progress.searchs;
 
         this.LoadDataLevelIndex();
 

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using DG.Tweening;
 
 public class ItemController : MonoBehaviour
 {
@@ -130,20 +131,52 @@ public class ItemController : MonoBehaviour
         MoveToOwnerPosition();
     }
 
-    /*public void MoveToOwnerPosition()
+    public void MoveToOwnerPosition()
     {
+        Vector3 targetPos;
+
         if (_ownerSlot != null)
         {
-            // Reset về vị trí của Slot nhưng z cũ của item
             Vector3 posSlot = _ownerSlot.transform.position;
-            transform.position = new Vector3(posSlot.x, posSlot.y, this.zIndex);
+            targetPos = new Vector3(posSlot.x, posSlot.y, this.zIndex);
         }
         else
         {
-            // Fallback: Về vị trí lúc bắt đầu kéo
-            transform.position = _startDragPos;
+            targetPos = _startDragPos;
         }
-    }*/
+
+        // --- DOTWEEN LOGIC ---
+        _isMoving = true; // Khóa input
+
+        transform.DOMove(targetPos, 0.3f)
+            .SetEase(Ease.OutCubic) // Hiệu ứng lướt mượt
+            .OnComplete(() =>
+            {
+                _isMoving = false; // Mở khóa khi bay xong
+
+                // Đảm bảo vị trí chính xác tuyệt đối (tránh sai số float)
+                transform.position = targetPos;
+            });
+    }
+
+    public void LockItemComplete() // tắt btn, đổi bg
+    {
+        if (IsLocked) return;
+
+        // 1. Đánh dấu về mặt Logic (để GridManager biết)
+        IsLocked = true;
+
+        // 2. Cập nhật UI
+        if (uiItem) uiItem.SetCompletedState();
+
+        // 3. TẮT COMPONENT NÚT BẤM (Cách bạn muốn)
+        // Việc này sẽ chặn vĩnh viễn việc kéo thả mà không cần check if trong OnBeginDrag
+        if (btnItem != null)
+        {
+            btnItem.enabled = false;
+            // Lưu ý: Đảm bảo ItemButton kế thừa MonoBehaviour thì mới có .enabled
+        }
+    }
 
     // --- HÀM QUAN TRỌNG NHẤT: LẤY TỌA ĐỘ CHUỘT CHUẨN ---
     private Vector3 GetWorldMousePos()
@@ -165,7 +198,7 @@ public class ItemController : MonoBehaviour
     // --- [THÊM MỚI 3] Hàm di chuyển mượt dùng Unity 6 Awaitable ---
 
     // Đổi thành "async void" để chạy bất đồng bộ
-    public async void MoveToOwnerPosition()
+    /*public async void MoveToOwnerPosition()
     {
         Vector3 targetPos;
 
@@ -181,10 +214,10 @@ public class ItemController : MonoBehaviour
 
         // Gọi hàm bay từ từ
         await MoveRoutine(targetPos, 0.3f);
-    }
+    }*/
 
     // Hàm xử lý logic bay (Tween)
-    private async Awaitable MoveRoutine(Vector3 target, float duration)
+    /*private async Awaitable MoveRoutine(Vector3 target, float duration)
     {
         _isMoving = true; // Khóa lại
 
@@ -211,24 +244,5 @@ public class ItemController : MonoBehaviour
         // Kết thúc: Gán vị trí chính xác và mở khóa
         transform.position = target;
         _isMoving = false; // Mở khóa cho phép kéo tiếp
-    }
-
-    public void LockItemComplete() // tắt btn, đổi bg
-    {
-        if (IsLocked) return;
-
-        // 1. Đánh dấu về mặt Logic (để GridManager biết)
-        IsLocked = true;
-
-        // 2. Cập nhật UI
-        if (uiItem) uiItem.SetCompletedState();
-
-        // 3. TẮT COMPONENT NÚT BẤM (Cách bạn muốn)
-        // Việc này sẽ chặn vĩnh viễn việc kéo thả mà không cần check if trong OnBeginDrag
-        if (btnItem != null)
-        {
-            btnItem.enabled = false;
-            // Lưu ý: Đảm bảo ItemButton kế thừa MonoBehaviour thì mới có .enabled
-        }
-    }
+    }*/
 }

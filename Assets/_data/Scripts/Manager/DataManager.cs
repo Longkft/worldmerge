@@ -11,6 +11,8 @@ public class UserProgress
 {
     public int currentLevelIndex = 1;
     public int coins = 0;
+    public int hints = 0;
+    public int searchs = 0;
 }
 
 [Serializable]

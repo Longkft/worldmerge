@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GridManager : Singleton<GridManager>
@@ -20,6 +21,26 @@ public class GridManager : Singleton<GridManager>
 
     // lưu lại số hàng (tính toán ở GenerateGrid)
     private int _totalRows;
+
+    public event Action<int> OnNumberRowsChanged;
+    private int _numberRowsCompleted;
+    // xem số hàng đã được completed là bao nhiêu
+    public int NumberRowsCompleted
+    {
+        get => _numberRowsCompleted;
+        set
+        {
+            // Chỉ cập nhật nếu giá trị mới khác giá trị cũ (tối ưu)
+            if (_numberRowsCompleted != value)
+            {
+                _numberRowsCompleted = value;
+
+                // BẮN SỰ KIỆN NGAY LẬP TỨC!
+                // Bất kỳ ai đăng ký lắng nghe sẽ được gọi
+                OnNumberRowsChanged?.Invoke(_numberRowsCompleted);
+            }
+        }
+    }
 
     public void GenerateGrid(MergeLevel levelData)
     {
@@ -120,6 +141,8 @@ public class GridManager : Singleton<GridManager>
         foreach (Transform child in containerItem) Destroy(child.gameObject);
         _spawnedSlots.Clear(); // Nhớ clear list slot
         _spawnedItems.Clear();
+
+        this.NumberRowsCompleted = 0;
     }
 
     private void ShuffleList<T>(List<T> list)
@@ -127,7 +150,7 @@ public class GridManager : Singleton<GridManager>
         for (int i = 0; i < list.Count; i++)
         {
             T temp = list[i];
-            int r = Random.Range(i, list.Count);
+            int r = UnityEngine.Random.Range(i, list.Count);
             list[i] = list[r];
             list[r] = temp;
         }
@@ -262,14 +285,21 @@ public class GridManager : Singleton<GridManager>
         // KẾT QUẢ
         if (isRowFullAndSame && rowItems.Count == columns)
         {
-            Debug.Log($"✅ Hàng {rowIndex} hoàn thành nhóm: {firstGroupId}");
+            Debug.Log($"Hàng {rowIndex} hoàn thành nhóm: {firstGroupId}");
 
             foreach (var item in rowItems)
             {
                 item.LockItemComplete();
             }
 
+            this.NumberRowsCompleted++;
+
             // TODO: Gọi Effect pháo hoa ở đây
+        }
+
+        if (this.NumberRowsCompleted == Config.NUMBER_ENDGAME)
+        {
+            Debug.Log("End Game");
         }
     }
 }
