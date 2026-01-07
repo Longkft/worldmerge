@@ -18,7 +18,15 @@ public class UserProgress
 [Serializable]
 public class GameSettings
 {
+    // Nhạc nền (BGM)
+    public bool isMusicOn = true;
     public float musicVolume = 1.0f;
+
+    // Âm thanh hiệu ứng (SFX)
+    public bool isSfxOn = true;
+    public float sfxVolume = 1.0f;
+
+    // Rung (Vibration)
     public bool vibration = true;
 }
 
@@ -45,6 +53,8 @@ public class DataManager : Singleton<DataManager>
         base.Awake(); // Gọi base của Singleton
 
         _filePath = Path.Combine(Application.persistentDataPath, "gamedata.json");
+
+        Debug.Log("File Save nằm ở đây: " + _filePath);
     }
 
     protected override bool ShouldDontDestroyOnLoad() => true;
@@ -68,7 +78,7 @@ public class DataManager : Singleton<DataManager>
         // 2. Nếu chưa có, bắt đầu đọc file bất đồng bộ
         if (!File.Exists(_filePath))
         {
-            Debug.Log("⚠️ File save chưa tồn tại -> Tạo mới.");
+            Debug.Log("File save chưa tồn tại -> Tạo mới.");
             _cachedData = new SaveData();
             // Lưu file mới tạo xuống đĩa (chạy ngầm, không cần await để game chạy tiếp)
             _ = SaveDataAsync();
@@ -98,7 +108,7 @@ public class DataManager : Singleton<DataManager>
         }
         catch (Exception e)
         {
-            Debug.LogError("❌ Lỗi đọc file save: " + e.Message + " -> Tạo mới data.");
+            Debug.LogError("Lỗi đọc file save: " + e.Message + " -> Tạo mới data.");
             _cachedData = new SaveData();
             return _cachedData;
         }
@@ -127,7 +137,7 @@ public class DataManager : Singleton<DataManager>
         }
         catch (Exception e)
         {
-            Debug.LogError("❌ Lỗi ghi file save: " + e.Message);
+            Debug.LogError("Lỗi ghi file save: " + e.Message);
         }
         finally
         {
