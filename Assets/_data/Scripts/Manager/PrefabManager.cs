@@ -7,5 +7,5 @@ public class PrefabManager : Singleton<PrefabManager>
     public GameObject ItemGame;
 
     [Header("--- Popup ---")]
-    public GameObject popup1;
+    public GameObject popupSetting;
 }

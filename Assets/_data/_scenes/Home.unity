@@ -1353,7 +1353,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &435036044
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4094,6 +4094,8 @@ MonoBehaviour:
     progress:
       currentLevelIndex: 1
       coins: 0
+      hints: 0
+      searchs: 0
     settings:
       musicVolume: 1
       vibration: 1
@@ -4935,7 +4937,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PrefabManager
   ItemSlot: {fileID: 6056995063594079386, guid: e1b9d519d7bfc554aa76e7f575f8a021, type: 3}
   ItemGame: {fileID: 8605982387867100855, guid: 90ef28fe739961748ac7d51fca26cc2b, type: 3}
-  popup1: {fileID: 868075299013509311, guid: 8a1abad99c2ac9d4ab163f1f92ce0247, type: 3}
+  popupSetting: {fileID: 868075299013509311, guid: 37c6320a8eb185644a998ba0e80942ae, type: 3}
 --- !u!1 &1590554886
 GameObject:
   m_ObjectHideFlags: 0
@@ -6087,6 +6089,7 @@ GameObject:
   - component: {fileID: 1953742167}
   - component: {fileID: 1953742166}
   - component: {fileID: 1953742165}
+  - component: {fileID: 1953742170}
   m_Layer: 5
   m_Name: setting
   m_TagString: Untagged
@@ -6237,6 +6240,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1953742163}
   m_CullTransparentMesh: 1
+--- !u!114 &1953742170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1953742163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 022d35c72c1377940a8946e2c6272464, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BtnSetting
+  isInteractable: 1
 --- !u!1 &1991717057
 GameObject:
   m_ObjectHideFlags: 0
