@@ -19,6 +19,8 @@ public class GridManager : Singleton<GridManager>
 
     private float VEC_UNDER_MAP = 0.2f;
 
+    private bool _isGameFinished = false; // Cờ đánh dấu game đã kết thúc chưa
+
     // lưu lại số hàng (tính toán ở GenerateGrid)
     private int _totalRows;
 
@@ -42,9 +44,16 @@ public class GridManager : Singleton<GridManager>
         }
     }
 
+    private void OnDisable()
+    {
+        this.ClearGrid();
+    }
+
     public void GenerateGrid(MergeLevel levelData)
     {
         ClearGrid();
+
+        _isGameFinished = false;
 
         if (levelData == null || levelData.groups == null) return;
 
@@ -282,8 +291,11 @@ public class GridManager : Singleton<GridManager>
             rowItems.Add(item);
         }
 
+        this.NumberRowsCompleted = 6; // dùng để check
+        Debug.Log("this.NumberRowsCompleted: " + this.NumberRowsCompleted);
+
         // KẾT QUẢ
-        if (isRowFullAndSame && rowItems.Count == columns)
+        if (isRowFullAndSame && rowItems.Count >= columns)
         {
             Debug.Log($"Hàng {rowIndex} hoàn thành nhóm: {firstGroupId}");
 
@@ -297,9 +309,13 @@ public class GridManager : Singleton<GridManager>
             // TODO: Gọi Effect pháo hoa ở đây
         }
 
+        // Chặn ngay từ đầu nếu game đã xong
+        if (_isGameFinished) return;
         if (this.NumberRowsCompleted == Config.NUMBER_ENDGAME)
         {
             Debug.Log("End Game");
+            _isGameFinished = true;
+            PopupManager.Instance.ShowPopupEndGame();
         }
     }
 }

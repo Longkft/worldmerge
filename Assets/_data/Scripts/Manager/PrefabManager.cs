@@ -8,4 +8,5 @@ public class PrefabManager : Singleton<PrefabManager>
 
     [Header("--- Popup ---")]
     public GameObject popupSetting;
+    public GameObject popupEndGame;
 }

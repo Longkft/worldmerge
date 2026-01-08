@@ -6,23 +6,30 @@ public class HomeManager : Singleton<HomeManager>
     public SaveData data;
 
     // ================= LEVEL =================
-    private int _levelCurrent;
-    public event Action<int> OnLevelChanged;
-    public int LevelCurrent
-    {
-        get => _levelCurrent;
-        set
-        {
-            if (_levelCurrent != value)
-            {
-                _levelCurrent = value;
-                OnLevelChanged?.Invoke(_levelCurrent);
+    // 1. Biến lưu Level cao nhất đã mở khóa (Dùng để lưu xuống đĩa)
+    private int _maxLevelUnlocked;
+    public event Action<int> OnLevelChanged; // Sự kiện update Map UI ở Home
 
-                // Cập nhật RAM (nếu cần thiết để save progress)
-                if (data != null) data.progress.currentLevelIndex = _levelCurrent;
+    public int MaxLevelUnlocked
+    {
+        get => _maxLevelUnlocked;
+        private set // Chỉ cho phép đổi trong script này
+        {
+            if (_maxLevelUnlocked != value)
+            {
+                _maxLevelUnlocked = value;
+                OnLevelChanged?.Invoke(_maxLevelUnlocked);
+
+                // [QUAN TRỌNG] Cập nhật Data Save ngay khi biến này thay đổi
+                if (data != null) data.progress.currentLevelIndex = _maxLevelUnlocked;
             }
         }
     }
+
+    // 2. [MỚI] Biến lưu Level đang chơi hiện tại (Session - không lưu xuống đĩa)
+    // Biến này giúp phân biệt việc đang "Cày ải" hay "Chơi lại"
+    private int _currentPlayingLevel;
+    public int CurrentPlayingLevel => _currentPlayingLevel;
 
     // ================= HINT =================
     private int _hintCount;
@@ -136,7 +143,9 @@ public class HomeManager : Singleton<HomeManager>
         // Load data lên RAM 1 lần duy nhất ở đây
         this.data = await DataManager.Instance.GetDataAsync();
 
-        this.LevelCurrent = data.progress.currentLevelIndex;
+        this.MaxLevelUnlocked = data.progress.currentLevelIndex;
+        this._currentPlayingLevel = this.MaxLevelUnlocked;
+
         this.HintCount = data.progress.hints;
         this.SearchCount = data.progress.searchs;
 
@@ -154,15 +163,65 @@ public class HomeManager : Singleton<HomeManager>
 
     protected void LoadDataLevelIndex()
     {
-        var levelData = ReadJson.Instance.GetLevelData(this.LevelCurrent - 1);
+        var levelData = ReadJson.Instance.GetLevelData(this.MaxLevelUnlocked - 1);
 
         string logContent = JsonUtility.ToJson(levelData, true);
 
-        Debug.Log($"Data Level {this.LevelCurrent}:\n" + logContent);
+        Debug.Log($"Data Level {this.MaxLevelUnlocked}:\n" + logContent);
     }
 
-    public void NextLevel()
+    public void StartGameAtLevel(int levelIndex)
     {
-        this.LevelCurrent++;
+        // 1. Lưu lại level đang chơi vào biến tạm
+        this._currentPlayingLevel = levelIndex;
+
+        // 2. Chuyển cảnh UI
+        UiManager.Instance.SceneGamePlay();
+
+        // 3. Bảo GridManager tạo map
+        // (Lấy data dựa trên levelIndex truyền vào)
+        var levelData = ReadJson.Instance.GetLevelData(this._currentPlayingLevel - 1);
+        GridManager.Instance.GenerateGrid(levelData);
+    }
+
+    /// <summary>
+    /// Hàm gọi khi người chơi THẮNG game
+    /// </summary>
+    public void OnLevelWin()
+    {
+        // [QUAN TRỌNG] Logic kiểm tra xem có được cộng Save hay không
+
+        // Chỉ cộng Save khi: Level vừa thắng == Level cao nhất hiện có
+        // (Tức là đang phá đảo, chứ không phải đang chơi lại bài cũ)
+        if (this._currentPlayingLevel == this._maxLevelUnlocked)
+        {
+            // Setter sẽ tự động cập nhật Data.progress và bắn Event
+            this.MaxLevelUnlocked++;
+        }
+        else
+        {
+            Debug.Log("Đang Replay level cũ, không cộng Save Data.");
+        }
+    }
+
+    /// Hàm cho nút NEXT
+    public void PlayNextLevel()
+    {
+        // Chơi level tiếp theo của level VỪA THẮNG
+        StartGameAtLevel(_currentPlayingLevel + 1);
+    }
+
+    /// Hàm cho nút REPLAY
+    public void ReplayCurrentLevel()
+    {
+        // Chơi lại đúng cái level VỪA THẮNG
+        StartGameAtLevel(this._currentPlayingLevel);
+    }
+
+    /// Hàm cho nút PLAY ở màn hình HOME
+    public void PlayMaxLevel()
+    {
+        // Ở Home thì luôn chơi level cao nhất
+        StartGameAtLevel(this._maxLevelUnlocked);
     }
 }

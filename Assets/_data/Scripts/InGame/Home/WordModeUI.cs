@@ -15,7 +15,7 @@ public class WordModeUI : MonoBehaviour
             HomeManager.Instance.OnLevelChanged += SetUiLevelWord;
 
             // Cập nhật ngay lập tức trạng thái hiện tại (phòng khi UI bật sau khi data đã load)
-            SetUiLevelWord(HomeManager.Instance.LevelCurrent);
+            SetUiLevelWord(HomeManager.Instance.MaxLevelUnlocked);
         }
     }
     private void OnDisable()

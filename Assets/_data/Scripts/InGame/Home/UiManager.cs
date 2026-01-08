@@ -6,13 +6,13 @@ public class UiManager : Singleton<UiManager>
     public GameObject panelGamePlay;
     public GameObject panelShop;
     public GameObject effEndGame;
+    public GameObject gameWord;
 
     public void SceneHome()
     {
         panelHome.SetActive(true);
         panelGamePlay.SetActive(false);
         panelShop.SetActive(false);
-        effEndGame.SetActive(true);
         effEndGame.SetActive(false);
     }
 
@@ -22,6 +22,7 @@ public class UiManager : Singleton<UiManager>
         panelHome.SetActive(false);
         panelShop.SetActive(false);
         effEndGame.SetActive(false);
+        gameWord.SetActive(true);
     }
 
     public void SceneShop()
