@@ -291,8 +291,8 @@ public class GridManager : Singleton<GridManager>
             rowItems.Add(item);
         }
 
-        this.NumberRowsCompleted = 6; // dùng để check
-        Debug.Log("this.NumberRowsCompleted: " + this.NumberRowsCompleted);
+        /*this.NumberRowsCompleted = 6; // dùng để check
+        Debug.Log("this.NumberRowsCompleted: " + this.NumberRowsCompleted);*/
 
         // KẾT QUẢ
         if (isRowFullAndSame && rowItems.Count >= columns)
@@ -306,7 +306,39 @@ public class GridManager : Singleton<GridManager>
 
             this.NumberRowsCompleted++;
 
-            // TODO: Gọi Effect pháo hoa ở đây
+            // ================================================================
+            // LOGIC TUTORIAL
+            // ================================================================
+
+            // Kiểm tra: Nếu chưa từng hiện Tutorial (giá trị 0) thì mới hiện
+            if (PlayerPrefs.GetInt("TUTORIAL_MERGE_SHOWN", 0) == 0)
+            {
+                // 1. Lấy Tiêu đề (Tên nhóm)
+                string title = firstGroupId;
+
+                // 2. Tạo nội dung: Nối tên các item lại (VD: "RED, GREEN, BLUE")
+                string content = "";
+                for (int i = 0; i < rowItems.Count; i++)
+                {
+                    // Cộng dồn tên item, thêm dấu phẩy nếu chưa phải thằng cuối
+                    content += rowItems[i].Data.word + (i < rowItems.Count - 1 ? ", " : "");
+                }
+
+                // 3. Lấy tọa độ Y của hàng vừa ăn (Lấy item đầu tiên làm mốc)
+                // Vì các item cùng hàng ngang nhau nên lấy thằng nào cũng được
+                float itemWorldY = rowItems[0].transform.position.y;
+
+                // 4. Gọi PopupManager hiện Tutorial
+                if (PopupManager.Instance != null)
+                {
+                    PopupManager.Instance.ShowPopupTutorial(title, content, itemWorldY);
+                }
+
+                // 5. Lưu lại trạng thái đã xem (Set thành 1) để lần sau không hiện nữa
+                PlayerPrefs.SetInt("TUTORIAL_MERGE_SHOWN", 1);
+                PlayerPrefs.Save();
+            }
+            // ================================================================
         }
 
         // Chặn ngay từ đầu nếu game đã xong

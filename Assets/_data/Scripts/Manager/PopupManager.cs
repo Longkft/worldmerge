@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PopupManager : Singleton<PopupManager>
 {
+    [Header("References")]
+    // Kéo cái Canvas to nhất (hoặc Canvas chứa popup) vào đây
+    [SerializeField] private Canvas _mainCanvas;
+
     // --- QUEUE SYSTEM ---
     private Queue<Action> _popupQueue = new Queue<Action>();
     private bool _isShowing = false; // Đang có popup nào hiện không?
@@ -60,6 +64,9 @@ public class PopupManager : Singleton<PopupManager>
             if (PrefabManager.Instance != null && PrefabManager.Instance.popupTutorial != null)
             {
                 this._popupTutorial = Instantiate(PrefabManager.Instance.popupTutorial, this.transform).GetComponent<popupTutorial>();
+
+                this._popupTutorial.SetCanvas(_mainCanvas);
+
                 this._popupTutorial.gameObject.SetActive(false);
             }
             else
@@ -146,7 +153,7 @@ public class PopupManager : Singleton<PopupManager>
         });
     }
 
-    public void ShowPopupTutorial()
+    public void ShowPopupTutorial(string title, string content, float worldY)
     {
         // Gói việc hiện popup lại thành 1 Action và ném vào Queue
         this.AddToQueue(() =>
@@ -157,7 +164,7 @@ public class PopupManager : Singleton<PopupManager>
                 this._currentActivePopup = popup;
 
                 // Truyền hàm OnPopupClosed vào để khi nào tắt nó báo lại
-                popup.Show(this.OnPopupClosed);
+                popup.ShowTutorial(this.OnPopupClosed, title, content, worldY);
             }
             else
             {
