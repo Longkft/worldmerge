@@ -14,6 +14,7 @@ public class UiManager : Singleton<UiManager>
         panelGamePlay.SetActive(false);
         panelShop.SetActive(false);
         effEndGame.SetActive(false);
+        gameWord.SetActive(false);
     }
 
     public void SceneGamePlay()

@@ -36,6 +36,8 @@ public class PanelGameplayController : Singleton<PanelGameplayController>
         if (GridManager.Instance != null)
         {
             GridManager.Instance.OnNumberRowsChanged -= setGroundEnd;
+
+
         }
     }
 

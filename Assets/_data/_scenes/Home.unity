@@ -466,6 +466,8 @@ GameObject:
   m_Component:
   - component: {fileID: 71202320}
   - component: {fileID: 71202321}
+  - component: {fileID: 71202322}
+  - component: {fileID: 71202323}
   m_Layer: 5
   m_Name: Panel_Popups
   m_TagString: Untagged
@@ -504,6 +506,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c41fca3892b5884cb21e24358280d7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PopupManager
+--- !u!223 &71202322
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 71202319}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 1
+  m_TargetDisplay: 0
+--- !u!114 &71202323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 71202319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GraphicRaycaster
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &127047238
 GameObject:
   m_ObjectHideFlags: 0
@@ -5419,10 +5461,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: effEndGame
       objectReference: {fileID: 0}
-    - target: {fileID: 1966460459580568219, guid: 934364ae10ddc104c89f16992894cb1e, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3404568450705378516, guid: 934364ae10ddc104c89f16992894cb1e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -9310,6 +9348,7 @@ MonoBehaviour:
   ItemGame: {fileID: 8605982387867100855, guid: 90ef28fe739961748ac7d51fca26cc2b, type: 3}
   popupSetting: {fileID: 868075299013509311, guid: 37c6320a8eb185644a998ba0e80942ae, type: 3}
   popupEndGame: {fileID: 868075299013509311, guid: 8a1abad99c2ac9d4ab163f1f92ce0247, type: 3}
+  popupTutorial: {fileID: 868075299013509311, guid: 44bf08f8edc37aa47b7f3683275ea41c, type: 3}
 --- !u!1 &1590554886
 GameObject:
   m_ObjectHideFlags: 0
@@ -10540,6 +10579,7 @@ GameObject:
   - component: {fileID: 1877221775}
   - component: {fileID: 1877221774}
   - component: {fileID: 1877221773}
+  - component: {fileID: 1877221776}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -10585,7 +10625,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -10648,6 +10688,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1877221771}
   m_CullTransparentMesh: 1
+--- !u!114 &1877221776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1877221771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 022d35c72c1377940a8946e2c6272464, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BtnSetting
+  isInteractable: 1
 --- !u!1 &1953742163
 GameObject:
   m_ObjectHideFlags: 0

@@ -81,6 +81,7 @@ GameObject:
   - component: {fileID: 2734558239377174619}
   - component: {fileID: 824048700622636661}
   - component: {fileID: 7179834305104224773}
+  - component: {fileID: 3392944187427874607}
   m_Layer: 5
   m_Name: btnHome
   m_TagString: Untagged
@@ -147,6 +148,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3392944187427874607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1368050138732425983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebefd909dfe214b4cba9ab7f343a64b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BtnHome
+  isInteractable: 1
 --- !u!1 &1760235370396424099
 GameObject:
   m_ObjectHideFlags: 0

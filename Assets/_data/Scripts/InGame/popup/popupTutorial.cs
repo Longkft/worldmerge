@@ -1,27 +1,14 @@
 ﻿using UnityEngine;
 
-public class popupSetting : BasePopup
+public class popupTutorial : BasePopup
 {
     [SerializeField] FxView _fx;
-
-    [Header("UI References")]
-    [SerializeField] private GameObject _btnHomeObj;
 
     // Override lại hàm Show của BasePopup
     public override void Show(System.Action onCloseCallback)
     {
         // Lưu callback của Manager lại (quan trọng!)
         base.Show(onCloseCallback);
-
-        // CHECK BIẾN GAMEMODE
-        if (HomeManager.Instance != null && this._btnHomeObj != null)
-        {
-            // Nếu đang ở GamePlay -> Hiện nút Home (true)
-            // Nếu đang ở Home -> Ẩn nút Home (false)
-            bool showHomeBtn = (HomeManager.Instance.CurrentMode == GameMode.GamePlay);
-
-            this._btnHomeObj.SetActive(showHomeBtn);
-        }
 
         // Gọi FxView để chạy hiệu ứng hiện
         if (_fx != null)

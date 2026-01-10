@@ -1,9 +1,17 @@
 ﻿using System;
 using UnityEngine;
 
+public enum GameMode
+{
+    Home,
+    GamePlay
+}
+
 public class HomeManager : Singleton<HomeManager>
 {
     public SaveData data;
+
+    public GameMode CurrentMode { get; private set; } = GameMode.Home; // lưu game mode
 
     // ================= LEVEL =================
     // 1. Biến lưu Level cao nhất đã mở khóa (Dùng để lưu xuống đĩa)
@@ -158,6 +166,8 @@ public class HomeManager : Singleton<HomeManager>
         AudioManager.Instance.PlayMusic(SoundType.BGM_Home);
 
         this.LoadDataLevelIndex();
+
+        this.CurrentMode = GameMode.Home; // Mặc định khi mở game lên là ở Home
         UiManager.Instance.SceneHome();
     }
 
@@ -172,13 +182,16 @@ public class HomeManager : Singleton<HomeManager>
 
     public void StartGameAtLevel(int levelIndex)
     {
-        // 1. Lưu lại level đang chơi vào biến tạm
+        // Đang màn game
+        this.CurrentMode = GameMode.GamePlay;
+
+        // Lưu lại level đang chơi vào biến tạm
         this._currentPlayingLevel = levelIndex;
 
-        // 2. Chuyển cảnh UI
+        // Chuyển cảnh UI
         UiManager.Instance.SceneGamePlay();
 
-        // 3. Bảo GridManager tạo map
+        // Bảo GridManager tạo map
         // (Lấy data dựa trên levelIndex truyền vào)
         var levelData = ReadJson.Instance.GetLevelData(this._currentPlayingLevel - 1);
         GridManager.Instance.GenerateGrid(levelData);
@@ -223,5 +236,14 @@ public class HomeManager : Singleton<HomeManager>
     {
         // Ở Home thì luôn chơi level cao nhất
         StartGameAtLevel(this._maxLevelUnlocked);
+    }
+
+    public void ReturnToHome()
+    {
+        // [MỚI] Đánh dấu là về Home
+        this.CurrentMode = GameMode.Home;
+
+        // Gọi UI về Home
+        UiManager.Instance.SceneHome();
     }
 }
