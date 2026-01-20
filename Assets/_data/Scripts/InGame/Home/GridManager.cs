@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DG.Tweening;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class GridManager : Singleton<GridManager>
@@ -12,6 +14,7 @@ public class GridManager : Singleton<GridManager>
     [Header("References")]
     [SerializeField] private Transform container;      // Chứa Slot
     [SerializeField] private Transform containerItem;  // Chứa Item
+    [SerializeField] private Transform containerCompleted;  // Chứa Item
 
     // Quản lý danh sách các Slot đã xây xong
     private List<SlotNode> _spawnedSlots = new List<SlotNode>();
@@ -237,7 +240,7 @@ public class GridManager : Singleton<GridManager>
     }
 
     // --- HÀM MỚI: CHỈ CHECK 1 HÀNG CỤ THỂ ---
-    private void CheckSpecificRow(int rowIndex)
+    private async void CheckSpecificRow(int rowIndex)
     {
         List<ItemController> rowItems = new List<ItemController>();
         string firstGroupId = "";
@@ -304,6 +307,39 @@ public class GridManager : Singleton<GridManager>
                 item.LockItemComplete();
             }
 
+            // CHUẨN BỊ DATA
+            string title = firstGroupId; // VD: COLOR
+            string content = "";
+            for (int i = 0; i < rowItems.Count; i++)
+            {
+                content += rowItems[i].Data.word + (i < rowItems.Count - 1 ? ", " : "");
+            }
+
+            // TÍNH VỊ TRÍ ĐỂ ĐÈ LÊN
+            // Tìm index của Slot đầu tiên trong hàng này
+            int firstSlotIndex = rowIndex * columns;
+
+            // Kiểm tra an toàn
+            if (firstSlotIndex < _spawnedSlots.Count)
+            {
+                // Lấy vị trí Y của cái SLOT (Slot không bao giờ di chuyển)
+                float fixedY = _spawnedSlots[firstSlotIndex].transform.position.y;
+
+                // Set vị trí spawn (X=0, Y=theo Slot, Z=-2 để đè lên item nằm im)
+                Vector3 spawnPos = new Vector3(0, fixedY, -2);
+
+                GameObject completedRowPrefab = PrefabManager.Instance.ItemCompleted;
+                // 3. SINH RA THANH MỚI
+                if (completedRowPrefab != null)
+                {
+                    var rowObj = Instantiate(completedRowPrefab, spawnPos, Quaternion.identity, containerCompleted);
+                    rowObj.GetComponent<RowCompletedView>().Setup(title, content);
+
+                    // eff
+                    rowObj.GetComponent<RowCompletedView>().ActiveEff();
+                }
+            }
+
             this.NumberRowsCompleted++;
 
             // ================================================================
@@ -313,7 +349,7 @@ public class GridManager : Singleton<GridManager>
             // Kiểm tra: Nếu chưa từng hiện Tutorial (giá trị 0) thì mới hiện
             if (PlayerPrefs.GetInt("TUTORIAL_MERGE_SHOWN", 0) == 0)
             {
-                // 1. Lấy Tiêu đề (Tên nhóm)
+                /*// 1. Lấy Tiêu đề (Tên nhóm)
                 string title = firstGroupId;
 
                 // 2. Tạo nội dung: Nối tên các item lại (VD: "RED, GREEN, BLUE")
@@ -322,7 +358,7 @@ public class GridManager : Singleton<GridManager>
                 {
                     // Cộng dồn tên item, thêm dấu phẩy nếu chưa phải thằng cuối
                     content += rowItems[i].Data.word + (i < rowItems.Count - 1 ? ", " : "");
-                }
+                }*/
 
                 // 3. Lấy tọa độ Y của hàng vừa ăn (Lấy item đầu tiên làm mốc)
                 // Vì các item cùng hàng ngang nhau nên lấy thằng nào cũng được
@@ -345,9 +381,27 @@ public class GridManager : Singleton<GridManager>
         if (_isGameFinished) return;
         if (this.NumberRowsCompleted == Config.NUMBER_ENDGAME)
         {
+            AudioManager.Instance.PlaySFX(SoundType.Win_Level);
+
+            await this.AwaitTime(2);
+
             Debug.Log("End Game");
             _isGameFinished = true;
             PopupManager.Instance.ShowPopupEndGame();
+        }
+    }
+
+    private async Task AwaitTime(int time)
+    {
+        // Task.Delay tính bằng mili-giây (1000ms = 1 giây)
+        try
+        {
+            // destroyCancellationToken giúp dừng Task nếu GridManager bị hủy giữa chừng (tránh lỗi)
+            await Task.Delay(time * 1000, this.destroyCancellationToken);
+        }
+        catch (OperationCanceledException)
+        {
+            // Bắt lỗi nếu object bị hủy khi đang chờ -> không làm gì cả
         }
     }
 }

@@ -10,6 +10,7 @@ public enum SoundType
     Popup_Open,
     Popup_Close,
     Win_Level,
+    Win,
     Lose_Level,
 
     // --- GAMEPLAY ---

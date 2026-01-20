@@ -10,7 +10,7 @@ public class FxView : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] private float duration = 0.4f;
-    [SerializeField] private Ease boxEase = Ease.OutCubic;
+    [SerializeField] private Ease boxEase = Ease.OutBack; // Scale dùng OutBack sẽ nảy đẹp hơn OutCubic
 
     private void OnEnable()
     {
@@ -19,52 +19,91 @@ public class FxView : MonoBehaviour
 
     private void ResetToStart()
     {
-        if (shadowGroup) shadowGroup.alpha = 125f / 255f;
-        if (boxRect) boxRect.anchoredPosition = new Vector2(-1000, 0);
+        // Kill hết tween cũ
+        if (shadowGroup) shadowGroup.DOKill();
+        if (boxRect) boxRect.DOKill();
+
+        // 1. Shadow bắt đầu từ mờ
+        if (shadowGroup) shadowGroup.alpha = 0f;
+
+        // 2. [THAY ĐỔI] Box bắt đầu từ bé xíu (Scale = 0)
+        if (boxRect)
+        {
+            boxRect.localScale = Vector3.zero;
+            boxRect.anchoredPosition = Vector2.zero; // Đảm bảo nó nằm giữa màn hình
+        }
     }
 
     public void ShowFx(Action onComplete = null)
     {
-        this.FXShadow(()=> {
-            this.FXBox(()=> {
+        this.gameObject.SetActive(true);
+        ResetToStart();
+
+        // Hiện Shadow trước -> Rồi Box phình to ra
+        this.FXShadow(() => {
+            this.FXBox(() => {
                 onComplete?.Invoke();
             });
         });
     }
 
-    // "= null" nghĩa là tham số này không bắt buộc, không truyền cũng không lỗi
     public void FXShadow(Action onComplete = null)
     {
-        this.gameObject.SetActive(true);
         if (shadowGroup)
         {
             shadowGroup.DOKill();
             shadowGroup.DOFade(1f, duration)
-                .OnComplete(() =>
-                {
-                    // Chạy xong tween thì kích hoạt callback (nếu có)
-                    onComplete?.Invoke();
-                });
+                .SetUpdate(true) // Chạy kể cả khi Time.timeScale = 0
+                .OnComplete(() => onComplete?.Invoke());
         }
         else
         {
-            // Nếu không có Shadow để chạy, gọi callback luôn để tránh kẹt logic game
             onComplete?.Invoke();
         }
     }
 
+    // --- [THAY ĐỔI] TWEEN SCALE ---
     public void FXBox(Action onComplete = null)
     {
         if (boxRect)
         {
             boxRect.DOKill();
-            boxRect.DOAnchorPos(Vector2.zero, duration)
+            // Phóng to từ 0 lên 1
+            boxRect.DOScale(Vector3.one, duration)
                 .SetEase(boxEase)
-                .OnComplete(() =>
-                {
-                    // Chạy xong tween thì kích hoạt callback (nếu có)
-                    onComplete?.Invoke();
-                });
+                .SetUpdate(true)
+                .OnComplete(() => onComplete?.Invoke());
+        }
+        else
+        {
+            onComplete?.Invoke();
+        }
+    }
+
+    // --- HIDE ---
+
+    public void HideFX(Action onComplete = null)
+    {
+        // Thu nhỏ Box -> Ẩn Shadow -> Tắt Object
+        this.FXBoxHide(() =>
+        {
+            this.FXShadowHide(() => {
+                onComplete?.Invoke();
+            });
+        });
+    }
+
+    // --- [THAY ĐỔI] TWEEN SCALE HIDE ---
+    public void FXBoxHide(Action onComplete = null)
+    {
+        if (boxRect && this.gameObject.activeInHierarchy)
+        {
+            boxRect.DOKill();
+            // Thu nhỏ từ hiện tại về 0
+            boxRect.DOScale(Vector3.zero, duration)
+                .SetEase(Ease.InBack) // Lúc tắt dùng InBack sẽ đẹp hơn (hơi thụt vào rồi biến mất)
+                .SetUpdate(true)
+                .OnComplete(() => onComplete?.Invoke());
         }
         else
         {
@@ -74,56 +113,29 @@ public class FxView : MonoBehaviour
 
     public void FXShadowHide(Action onComplete = null)
     {
-        if (shadowGroup)
+        if (shadowGroup && this.gameObject.activeInHierarchy)
         {
             shadowGroup.DOKill();
             shadowGroup.DOFade(0, duration)
+                .SetUpdate(true)
                 .OnComplete(() =>
                 {
-                    // Chạy xong tween thì kích hoạt callback (nếu có)
                     onComplete?.Invoke();
-
-                    this.gameObject.SetActive(false);
-                });
-        }
-        else
-        {
-            // Nếu không có Shadow để chạy, gọi callback luôn để tránh kẹt logic game
-            onComplete?.Invoke();
-        }
-    }
-
-    public void FXBoxHide(Action onComplete = null)
-    {
-        if (boxRect)
-        {
-            boxRect.DOKill();
-            boxRect.DOAnchorPos(new Vector2(1000,0), duration)
-                .SetEase(boxEase)
-                .OnComplete(() =>
-                {
-                    // Chạy xong tween thì kích hoạt callback (nếu có)
-                    onComplete?.Invoke();
+                    if (this != null && this.gameObject != null)
+                        this.gameObject.SetActive(false);
                 });
         }
         else
         {
             onComplete?.Invoke();
+            if (this != null && this.gameObject != null)
+                this.gameObject.SetActive(false);
         }
-    }
-
-    public void HideFX(Action onComplete = null)
-    {
-        this.FXBoxHide(() =>
-        {
-            this.FXShadowHide(()=> {
-                onComplete?.Invoke();
-            });
-        });
     }
 
     private void OnDisable()
     {
+        this.transform.DOKill();
         if (shadowGroup) shadowGroup.DOKill();
         if (boxRect) boxRect.DOKill();
     }

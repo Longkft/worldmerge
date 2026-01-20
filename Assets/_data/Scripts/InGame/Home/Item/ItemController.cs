@@ -32,7 +32,7 @@ public class ItemController : MonoBehaviour
         _startDragPos = transform.position;
 
         this.zIndex = (int)transform.position.z;
-        this.zIndexToClick = this.zIndex - 1; // cho lên trên
+        this.zIndexToClick = this.zIndex - 2; // cho lên trên
     }
 
     // --- SETUP ---
@@ -138,7 +138,7 @@ public class ItemController : MonoBehaviour
         if (_ownerSlot != null)
         {
             Vector3 posSlot = _ownerSlot.transform.position;
-            targetPos = new Vector3(posSlot.x, posSlot.y, this.zIndex);
+            targetPos = new Vector3(posSlot.x, posSlot.y, this.zIndexToClick);
         }
         else
         {
@@ -155,7 +155,7 @@ public class ItemController : MonoBehaviour
                 _isMoving = false; // Mở khóa khi bay xong
 
                 // Đảm bảo vị trí chính xác tuyệt đối (tránh sai số float)
-                transform.position = targetPos;
+                transform.position = new Vector3(targetPos.x, targetPos.y, this.zIndex);
             });
     }
 
