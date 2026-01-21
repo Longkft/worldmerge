@@ -27,6 +27,9 @@ public class popupEndGame : BasePopup
         HomeManager.Instance.OnLevelWin();
         levelUI.text = "LEVEL " + HomeManager.Instance.CurrentPlayingLevel.ToString();
 
+        // play âm thanh
+        AudioManager.Instance.PlaySFX(SoundType.Win);
+
         if (_fx != null)
         {
             _fx.ShowFx(() => UiManager.Instance.ActiceEffEndGame());

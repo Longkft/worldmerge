@@ -10,7 +10,6 @@ public enum SoundType
     Popup_Open,
     Popup_Close,
     Win_Level,
-    Win,
     Lose_Level,
 
     // --- GAMEPLAY ---
@@ -20,7 +19,11 @@ public enum SoundType
 
     // --- MUSIC (BGM) ---
     BGM_Home,
-    BGM_GamePlay
+    BGM_GamePlay,
+
+    Win,
+    Finish,
+    Unlock,
 }
 
 [System.Serializable]

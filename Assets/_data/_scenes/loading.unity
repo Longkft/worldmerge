@@ -401,8 +401,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 85%
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9244349508ce20b45b730902f7bdcbe2, type: 2}
+  m_sharedMaterial: {fileID: -4701192060204146365, guid: 9244349508ce20b45b730902f7bdcbe2, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1368,8 +1368,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Loading...
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9244349508ce20b45b730902f7bdcbe2, type: 2}
+  m_sharedMaterial: {fileID: -4701192060204146365, guid: 9244349508ce20b45b730902f7bdcbe2, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1496,8 +1496,11 @@ MonoBehaviour:
   - type: 7
     clip: {fileID: 8300000, guid: 736ede7941154f64db777d5299b7a9d8, type: 3}
     volume: 1
-  - type: 5
-    clip: {fileID: 8300000, guid: c29ca2e8e1f3e644da11f12e8cf7471c, type: 3}
+  - type: 11
+    clip: {fileID: 8300000, guid: 9055b0d2a587a7b4792ae4c1ce4df4ac, type: 3}
+    volume: 1
+  - type: 13
+    clip: {fileID: 8300000, guid: a0953bc8baeb5754d9f48b8e6fc5716b, type: 3}
     volume: 1
 --- !u!4 &1809472304
 Transform:
@@ -2105,6 +2108,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1974094029641821569, guid: 9808781bcbff93b498428aaf06bbf893, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4373721670079012765, guid: 9808781bcbff93b498428aaf06bbf893, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 250cd87a3193e564291c1c390aa60805, type: 2}
+    - target: {fileID: 4373721670079012765, guid: 9808781bcbff93b498428aaf06bbf893, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -5820250421147106283, guid: 250cd87a3193e564291c1c390aa60805, type: 2}
+    - target: {fileID: 4373721670079012765, guid: 9808781bcbff93b498428aaf06bbf893, type: 3}
+      propertyPath: m_hasFontAssetChanged
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6023206523184375719, guid: 9808781bcbff93b498428aaf06bbf893, type: 3}

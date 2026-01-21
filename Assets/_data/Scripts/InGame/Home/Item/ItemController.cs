@@ -131,7 +131,7 @@ public class ItemController : MonoBehaviour
         MoveToOwnerPosition();
     }
 
-    public void MoveToOwnerPosition()
+    public void MoveToOwnerPosition(System.Action onComplete = null)
     {
         Vector3 targetPos;
 
@@ -156,6 +156,8 @@ public class ItemController : MonoBehaviour
 
                 // Đảm bảo vị trí chính xác tuyệt đối (tránh sai số float)
                 transform.position = new Vector3(targetPos.x, targetPos.y, this.zIndex);
+
+                onComplete?.Invoke();
             });
     }
 
@@ -194,55 +196,4 @@ public class ItemController : MonoBehaviour
 
         return worldPos;
     }
-
-    // --- [THÊM MỚI 3] Hàm di chuyển mượt dùng Unity 6 Awaitable ---
-
-    // Đổi thành "async void" để chạy bất đồng bộ
-    /*public async void MoveToOwnerPosition()
-    {
-        Vector3 targetPos;
-
-        if (_ownerSlot != null)
-        {
-            Vector3 posSlot = _ownerSlot.transform.position;
-            targetPos = new Vector3(posSlot.x, posSlot.y, this.zIndex);
-        }
-        else
-        {
-            targetPos = _startDragPos;
-        }
-
-        // Gọi hàm bay từ từ
-        await MoveRoutine(targetPos, 0.3f);
-    }*/
-
-    // Hàm xử lý logic bay (Tween)
-    /*private async Awaitable MoveRoutine(Vector3 target, float duration)
-    {
-        _isMoving = true; // Khóa lại
-
-        Vector3 startPos = transform.position;
-        float elapsedTime = 0f;
-
-        while (elapsedTime < duration)
-        {
-            // Nếu tự nhiên bị kéo đi mất thì hủy (an toàn)
-            if (!_isMoving) return;
-
-            elapsedTime += Time.deltaTime;
-            float t = elapsedTime / duration;
-
-            // Công thức làm mượt (Ease Out Cubic)
-            float smoothT = 1f - Mathf.Pow(1f - t, 3);
-
-            transform.position = Vector3.Lerp(startPos, target, smoothT);
-
-            // Chờ frame tiếp theo (tính năng mới của Unity 6)
-            await Awaitable.NextFrameAsync();
-        }
-
-        // Kết thúc: Gán vị trí chính xác và mở khóa
-        transform.position = target;
-        _isMoving = false; // Mở khóa cho phép kéo tiếp
-    }*/
 }

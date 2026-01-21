@@ -124,7 +124,7 @@ public class GridManager : Singleton<GridManager>
             // Lấy cái Slot tương ứng tại vị trí i ra
             SlotNode targetSlot = _spawnedSlots[i];
             Vector3 pos = targetSlot.transform.position;
-            Vector3 spawnPos = new Vector3(pos.x, pos.y, pos.z - 1);
+            Vector3 spawnPos = new Vector3(pos.x, pos.y, 0);
 
             // Tạo Item tại vị trí của Slot đó
             GameObject newItemObj = Instantiate(PrefabManager.Instance.ItemGame, spawnPos, Quaternion.identity, containerItem);
@@ -223,20 +223,28 @@ public class GridManager : Singleton<GridManager>
 
         // 3. LOGIC VISUAL
         // Bảo thằng đang kéo bay về nhà mới (Slot đích)
-        itemDrag.MoveToOwnerPosition();
-
-        Debug.Log($"Swap thành công: {sourceSlot.name} <-> {targetSlot.name}");
+        /*itemDrag.MoveToOwnerPosition();*/
 
         // 4. --- CHỈ CHECK 2 HÀNG LIÊN QUAN ---
 
         // Check hàng cũ
-        CheckSpecificRow(sourceRowIndex);
-
-        // Check hàng mới (nếu khác hàng cũ)
-        if (sourceRowIndex != targetRowIndex)
+        System.Action runCheckLogic = () =>
         {
-            CheckSpecificRow(targetRowIndex);
-        }
+            Debug.Log($"Swap visual xong: {sourceSlot.name} <-> {targetSlot.name}. Giờ mới check!");
+
+            // Check hàng cũ
+            CheckSpecificRow(sourceRowIndex);
+
+            // Check hàng mới (nếu khác hàng cũ)
+            if (sourceRowIndex != targetRowIndex)
+            {
+                CheckSpecificRow(targetRowIndex);
+            }
+        };
+
+        itemDrag.MoveToOwnerPosition(runCheckLogic);
+
+        Debug.Log($"Swap thành công: {sourceSlot.name} <-> {targetSlot.name}");
     }
 
     // --- HÀM MỚI: CHỈ CHECK 1 HÀNG CỤ THỂ ---
@@ -326,7 +334,7 @@ public class GridManager : Singleton<GridManager>
                 float fixedY = _spawnedSlots[firstSlotIndex].transform.position.y;
 
                 // Set vị trí spawn (X=0, Y=theo Slot, Z=-2 để đè lên item nằm im)
-                Vector3 spawnPos = new Vector3(0, fixedY, -2);
+                Vector3 spawnPos = new Vector3(0, fixedY, -1);
 
                 GameObject completedRowPrefab = PrefabManager.Instance.ItemCompleted;
                 // 3. SINH RA THANH MỚI
@@ -383,25 +391,11 @@ public class GridManager : Singleton<GridManager>
         {
             AudioManager.Instance.PlaySFX(SoundType.Win_Level);
 
-            await this.AwaitTime(2);
+            await Utils.AwaitTime(2, this.destroyCancellationToken);
 
             Debug.Log("End Game");
             _isGameFinished = true;
             PopupManager.Instance.ShowPopupEndGame();
-        }
-    }
-
-    private async Task AwaitTime(int time)
-    {
-        // Task.Delay tính bằng mili-giây (1000ms = 1 giây)
-        try
-        {
-            // destroyCancellationToken giúp dừng Task nếu GridManager bị hủy giữa chừng (tránh lỗi)
-            await Task.Delay(time * 1000, this.destroyCancellationToken);
-        }
-        catch (OperationCanceledException)
-        {
-            // Bắt lỗi nếu object bị hủy khi đang chờ -> không làm gì cả
         }
     }
 }
