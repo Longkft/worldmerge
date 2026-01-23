@@ -545,7 +545,7 @@ public class GridManager : Singleton<GridManager>
                 content += rowItems[i].Data.word + (i < rowItems.Count - 1 ? ", " : "");
             }
 
-            // [THÊM] Lưu thông tin hàng hoàn thành vào cache
+            // Lưu thông tin hàng hoàn thành vào cache
             RowSaveData rData = new RowSaveData();
             rData.title = title;
             rData.content = content;

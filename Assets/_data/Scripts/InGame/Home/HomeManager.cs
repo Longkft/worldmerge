@@ -169,6 +169,10 @@ public class HomeManager : Singleton<HomeManager>
         }
     }
 
+    // ================= progress: VIBRATION =================
+    // KHAI BÁO ACTION: Gửi ra Mode và Tỉ lệ % (0.0f -> 1.0f)
+    public static Action<GamePlayMode, float> OnUpdateProgress;
+
     // ================= AWAKE & INIT =================
     /*private async void Awake()
     {
@@ -223,6 +227,44 @@ public class HomeManager : Singleton<HomeManager>
         // 4. Update UI Text lần đầu tiên cho cả 2 nút
         OnWordLevelChanged?.Invoke(this.WordLevelIndex);
         OnMathLevelChanged?.Invoke(this.MathLevelIndex);
+
+        // 5. Cập nhật Progress Bar cho cả 2 Mode ngay khi vào game
+        RefreshHomeProgress(GamePlayMode.Word);
+        RefreshHomeProgress(GamePlayMode.Math);
+    }
+
+    // Hàm tính toán và bắn Action cập nhật Progress
+    public void RefreshHomeProgress(GamePlayMode mode)
+    {
+        // A. Lấy Level hiện tại
+        int currentLevelIndex = (mode == GamePlayMode.Word) ? WordLevelIndex : MathLevelIndex;
+
+        // B. Lấy Data Level (để biết tổng số hàng - Total Rows)
+        var levelConfig = DataManager.Instance.GetLevelData(currentLevelIndex, mode); //
+
+        if (levelConfig == null || levelConfig.groups == null)
+        {
+            OnUpdateProgress?.Invoke(mode, 0f); // Level lỗi hoặc chưa có -> 0%
+            return;
+        }
+
+        int totalRows = levelConfig.groups.Count; // Tổng số hàng của level này
+
+        // C. Lấy Save Game đang chơi dở (để biết đã ăn bao nhiêu hàng)
+        var matchSave = DataManager.Instance.GetMatchProgress(mode); //
+
+        int completedRows = 0;
+        // Chỉ lấy số liệu nếu Save Game trùng khớp với Level hiện tại
+        if (matchSave != null && matchSave.hasData && matchSave.levelIndex == currentLevelIndex)
+        {
+            completedRows = matchSave.rowsCompleted;
+        }
+
+        // D. Tính tỉ lệ và bắn Action
+        float ratio = (totalRows > 0) ? (float)completedRows / totalRows : 0f;
+
+        // Debug.Log($"Mode {mode}: {completedRows}/{totalRows} = {ratio}");
+        OnUpdateProgress?.Invoke(mode, ratio);
     }
 
     // Hàm gọi khi bấm nút "Word Mode"
@@ -341,5 +383,10 @@ public class HomeManager : Singleton<HomeManager>
 
         // Gọi UI về Home
         UiManager.Instance.SceneHome();
+
+        // Cập nhật lại thanh tiến độ ngay khi về nhà
+        // Vì lúc này SaveGameState() ở trên đã chạy xong, data đã mới nhất rồi.
+        RefreshHomeProgress(GamePlayMode.Word);
+        RefreshHomeProgress(GamePlayMode.Math);
     }
 }
