@@ -151,6 +151,7 @@ public class GridManager : Singleton<GridManager>
     {
         foreach (Transform child in container) Destroy(child.gameObject);
         foreach (Transform child in containerItem) Destroy(child.gameObject);
+        foreach (Transform child in containerCompleted) Destroy(child.gameObject);
         _spawnedSlots.Clear(); // Nhớ clear list slot
         _spawnedItems.Clear();
 
@@ -252,6 +253,7 @@ public class GridManager : Singleton<GridManager>
     {
         List<ItemController> rowItems = new List<ItemController>();
         string firstGroupId = "";
+        string firstgroupName = "";
         bool isRowFullAndSame = true;
 
         // Duyệt qua các cột trong hàng rowIndex này thôi
@@ -310,13 +312,15 @@ public class GridManager : Singleton<GridManager>
         {
             Debug.Log($"Hàng {rowIndex} hoàn thành nhóm: {firstGroupId}");
 
+            firstgroupName = rowItems[0].Data.groupName;
+
             foreach (var item in rowItems)
             {
                 item.LockItemComplete();
             }
 
             // CHUẨN BỊ DATA
-            string title = firstGroupId; // VD: COLOR
+            string title = firstgroupName; // VD: COLOR
             string content = "";
             for (int i = 0; i < rowItems.Count; i++)
             {

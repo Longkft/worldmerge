@@ -11,33 +11,59 @@ public class HomeManager : Singleton<HomeManager>
 {
     public SaveData data;
 
+    // Trạng thái màn hình hiện tại (Home hoặc đang chơi)
     public GameMode CurrentMode { get; private set; } = GameMode.Home; // lưu game mode
+
+    // Chế độ chơi được chọn (Word / Math)
+    public GamePlayMode SelectedGamePlayMode { get; private set; } = GamePlayMode.Word;
 
     // ================= LEVEL =================
     // 1. Biến lưu Level cao nhất đã mở khóa (Dùng để lưu xuống đĩa)
-    private int _maxLevelUnlocked;
-    public event Action<int> OnLevelChanged; // Sự kiện update Map UI ở Home
+    // ================= EVENTS =================
+    // Sự kiện riêng lẻ để cập nhật text trên 2 nút
+    public event Action<int> OnWordLevelChanged;
+    public event Action<int> OnMathLevelChanged;
 
+    // ================= PROPERTIES =================
+    // Helper lấy level hiện tại để hiển thị lên UI
+    public int WordLevelIndex => data != null ? data.progress.wordLevelIndex : 1;
+    public int MathLevelIndex => data != null ? data.progress.mathLevelIndex : 1;
+
+    // Level hiện tại của chế độ ĐANG CHỌN (Dùng cho logic thắng thua)
     public int MaxLevelUnlocked
     {
-        get => _maxLevelUnlocked;
-        private set // Chỉ cho phép đổi trong script này
+        get
         {
-            if (_maxLevelUnlocked != value)
+            if (data == null) return 1;
+            return (SelectedGamePlayMode == GamePlayMode.Math) ? data.progress.mathLevelIndex : data.progress.wordLevelIndex;
+        }
+        private set
+        {
+            if (data != null)
             {
-                _maxLevelUnlocked = value;
-                OnLevelChanged?.Invoke(_maxLevelUnlocked);
-
-                // [QUAN TRỌNG] Cập nhật Data Save ngay khi biến này thay đổi
-                if (data != null) data.progress.currentLevelIndex = _maxLevelUnlocked;
+                // 1. Lưu vào RAM biến tương ứng
+                if (SelectedGamePlayMode == GamePlayMode.Math)
+                {
+                    data.progress.mathLevelIndex = value;
+                    OnMathLevelChanged?.Invoke(value); // Báo cho nút Math cập nhật text
+                }
+                else
+                {
+                    data.progress.wordLevelIndex = value;
+                    OnWordLevelChanged?.Invoke(value); // Báo cho nút Word cập nhật text
+                }
             }
         }
     }
 
-    // 2. [MỚI] Biến lưu Level đang chơi hiện tại (Session - không lưu xuống đĩa)
+    // 2. Biến lưu Level đang chơi hiện tại (Session - không lưu xuống đĩa)
+
+    // [THÊM] Sự kiện này dành riêng cho Gameplay Panel (Cập nhật tiêu đề màn chơi)
+    public event Action<int> OnPlayingLevelChanged;
+
     // Biến này giúp phân biệt việc đang "Cày ải" hay "Chơi lại"
-    private int _currentPlayingLevel;
-    public int CurrentPlayingLevel => _currentPlayingLevel;
+    // Public cho bên ngoài đọc, Private cho bên trong sửa
+    public int CurrentPlayingLevel { get; private set; }
 
     // ================= HINT =================
     private int _hintCount;
@@ -144,7 +170,7 @@ public class HomeManager : Singleton<HomeManager>
     }
 
     // ================= AWAKE & INIT =================
-    private async void Awake()
+    /*private async void Awake()
     {
         base.Awake();
 
@@ -169,6 +195,54 @@ public class HomeManager : Singleton<HomeManager>
 
         this.CurrentMode = GameMode.Home; // Mặc định khi mở game lên là ở Home
         UiManager.Instance.SceneHome();
+    }*/
+
+    private async void Awake()
+    {
+        base.Awake();
+
+        // 1. Load Data
+        this.data = await DataManager.Instance.GetDataAsync();
+
+        this.HintCount = data.progress.hints;
+        this.SearchCount = data.progress.searchs;
+
+        _isMusicOn = data.settings.isMusicOn;
+        _isSoundOn = data.settings.isSfxOn;
+        _isVibrationOn = data.settings.vibration;
+
+        // 2. Init Audio
+        AudioManager.Instance.SetMusicState(data.settings.isMusicOn);
+        AudioManager.Instance.SetSFXState(data.settings.isSfxOn);
+        AudioManager.Instance.PlayMusic(SoundType.BGM_Home);
+
+        // 3. Init UI
+        this.CurrentMode = GameMode.Home;
+        UiManager.Instance.SceneHome();
+
+        // 4. Update UI Text lần đầu tiên cho cả 2 nút
+        OnWordLevelChanged?.Invoke(this.WordLevelIndex);
+        OnMathLevelChanged?.Invoke(this.MathLevelIndex);
+    }
+
+    // Hàm gọi khi bấm nút "Word Mode"
+    public void PlayWordMode()
+    {
+        this.SelectedGamePlayMode = GamePlayMode.Word;
+        Debug.Log("Selected: WORD MODE");
+
+        // Chơi luôn level cao nhất của Word
+        StartGameAtLevel(this.WordLevelIndex);
+    }
+
+    // Hàm gọi khi bấm nút "Math Mode"
+    public void PlayMathMode()
+    {
+        this.SelectedGamePlayMode = GamePlayMode.Math;
+        Debug.Log("Selected: MATH MODE");
+
+        // Chơi luôn level cao nhất của Math
+        StartGameAtLevel(this.MathLevelIndex);
     }
 
     protected void LoadDataLevelIndex()
@@ -186,15 +260,27 @@ public class HomeManager : Singleton<HomeManager>
         this.CurrentMode = GameMode.GamePlay;
 
         // Lưu lại level đang chơi vào biến tạm
-        this._currentPlayingLevel = levelIndex;
+        this.CurrentPlayingLevel = levelIndex;
 
         // Chuyển cảnh UI
         UiManager.Instance.SceneGamePlay();
 
+        // [THÊM] Bắn sự kiện báo cho PanelGameplay biết là đang chơi level mấy
+        // Để dù là Replay hay Next thì UI cũng tự update theo số này
+        OnPlayingLevelChanged?.Invoke(this.CurrentPlayingLevel);
+
         // Bảo GridManager tạo map
-        // (Lấy data dựa trên levelIndex truyền vào)
-        var levelData = ReadJson.Instance.GetLevelData(this._currentPlayingLevel - 1);
-        GridManager.Instance.GenerateGrid(levelData);
+        // Lấy data từ DataManager dựa trên chế độ đã chọn
+        var levelData = DataManager.Instance.GetLevelData(levelIndex, this.SelectedGamePlayMode);
+
+        if (levelData != null)
+        {
+            GridManager.Instance.GenerateGrid(levelData);
+        }
+        else
+        {
+            Debug.LogError($"Lỗi: Không tìm thấy data cho {SelectedGamePlayMode} - Level {levelIndex}");
+        }
     }
 
     /// <summary>
@@ -206,7 +292,7 @@ public class HomeManager : Singleton<HomeManager>
 
         // Chỉ cộng Save khi: Level vừa thắng == Level cao nhất hiện có
         // (Tức là đang phá đảo, chứ không phải đang chơi lại bài cũ)
-        if (this._currentPlayingLevel == this._maxLevelUnlocked)
+        if (this.CurrentPlayingLevel == this.MaxLevelUnlocked)
         {
             // Setter sẽ tự động cập nhật Data.progress và bắn Event
             this.MaxLevelUnlocked++;
@@ -221,21 +307,21 @@ public class HomeManager : Singleton<HomeManager>
     public void PlayNextLevel()
     {
         // Chơi level tiếp theo của level VỪA THẮNG
-        StartGameAtLevel(_currentPlayingLevel + 1);
+        StartGameAtLevel(CurrentPlayingLevel + 1);
     }
 
     /// Hàm cho nút REPLAY
     public void ReplayCurrentLevel()
     {
         // Chơi lại đúng cái level VỪA THẮNG
-        StartGameAtLevel(this._currentPlayingLevel);
+        StartGameAtLevel(this.CurrentPlayingLevel);
     }
 
     /// Hàm cho nút PLAY ở màn hình HOME
     public void PlayMaxLevel()
     {
         // Ở Home thì luôn chơi level cao nhất
-        StartGameAtLevel(this._maxLevelUnlocked);
+        StartGameAtLevel(this.MaxLevelUnlocked);
     }
 
     public void ReturnToHome()

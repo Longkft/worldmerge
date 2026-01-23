@@ -5,11 +5,22 @@ using System.Collections.Generic;
 using System.Threading.Tasks; // Cần thiết cho Async/Await
 using System.Text;
 
+public enum GamePlayMode
+{
+    Word, // Chế độ từ vựng
+    Math  // Chế độ toán học
+}
+
 //DATA MODELS(Mở rộng thoải mái) ---
 [Serializable]
 public class UserProgress
 {
-    public int currentLevelIndex = 1;
+    public int wordLevelIndex = 1; // Level Word
+    public int mathLevelIndex = 1; // Level Math (Mới)
+
+    // Giữ lại biến cũ để migration nếu cần, hoặc bỏ đi
+    // public int currentLevelIndex = 1; 
+
     public int coins = 0;
     public int hints = 0;
     public int searchs = 0;
@@ -47,6 +58,15 @@ public class DataManager : Singleton<DataManager>
     // Cờ đánh dấu đang lưu để tránh lưu chồng chéo
     private bool _isSaving = false;
 
+    // --- KHO CHỨA DATA LEVEL (Trong RAM) ---
+    private List<MergeLevel> _wordLevels = new List<MergeLevel>();
+    private List<MergeLevel> _mathLevels = new List<MergeLevel>();
+
+    // Tên file trong thư mục Resources
+    [Header("Data Config")]
+    [SerializeField] private string wordDataFileName = "DataLevel/levels";
+    [SerializeField] private string mathDataFileName = "DataLevel/math_data";
+
     // --- SETUP SINGLETON ---
     protected override void Awake()
     {
@@ -55,9 +75,61 @@ public class DataManager : Singleton<DataManager>
         _filePath = Path.Combine(Application.persistentDataPath, "gamedata.json");
 
         Debug.Log("File Save nằm ở đây: " + _filePath);
+
+        // Load dữ liệu tĩnh (Level JSON) ngay khi game bật
+        this.LoadAllLevelData();
     }
 
     protected override bool ShouldDontDestroyOnLoad() => true;
+
+    private void LoadAllLevelData()
+    {
+        _wordLevels = LoadLevelsFromResource(wordDataFileName);
+        _mathLevels = LoadLevelsFromResource(mathDataFileName);
+        Debug.Log($"<color=green>Loaded: {_wordLevels.Count} Word Levels, {_mathLevels.Count} Math Levels.</color>");
+    }
+
+    private List<MergeLevel> LoadLevelsFromResource(string fileName)
+    {
+        TextAsset targetFile = Resources.Load<TextAsset>(fileName);
+        if (targetFile != null)
+        {
+            string jsonText = targetFile.text.Trim();
+
+            // Xử lý format JSON array nếu cần (giống logic ReadJson cũ của bạn)
+            if (jsonText.StartsWith("["))
+            {
+                jsonText = "{ \"levels\": " + jsonText + " }";
+            }
+
+            try
+            {
+                MergeLevelWrapper wrapper = JsonUtility.FromJson<MergeLevelWrapper>(jsonText);
+                if (wrapper != null && wrapper.levels != null)
+                {
+                    return wrapper.levels;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Parse JSON {fileName} thất bại: {e.Message}");
+            }
+        }
+        else
+        {
+            Debug.LogError($"Không tìm thấy file Resource: {fileName}");
+        }
+        return new List<MergeLevel>(); // Trả về list rỗng nếu lỗi
+    }
+
+    // --- API LẤY LEVEL DATA THEO MODE ---
+    public MergeLevel GetLevelData(int levelIndex, GamePlayMode mode)
+    {
+        List<MergeLevel> targetList = (mode == GamePlayMode.Math) ? _mathLevels : _wordLevels;
+
+        // Tìm level trong list. Level trong JSON của bạn bắt đầu từ 1.
+        return targetList.Find(x => x.level == levelIndex);
+    }
 
     // =========================================================
     // 1. HÀM ĐỌC DỮ LIỆU (ASYNC) - Cốt lõi yêu cầu của bạn

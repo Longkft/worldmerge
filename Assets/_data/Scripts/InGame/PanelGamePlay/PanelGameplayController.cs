@@ -11,7 +11,7 @@ public class PanelGameplayController : Singleton<PanelGameplayController>
         // Hàm SetUiLevelWord giờ nhận vào 1 số int (level mới)
         if (HomeManager.Instance != null)
         {
-            /*HomeManager.Instance.OnLevelChanged += SetUiLevel;*/
+            HomeManager.Instance.OnPlayingLevelChanged += SetUiLevel;
 
             // Lấy level đang thực sự chơi (Session)
             SetUiLevel(HomeManager.Instance.CurrentPlayingLevel);
@@ -28,10 +28,10 @@ public class PanelGameplayController : Singleton<PanelGameplayController>
 
     private void OnDisable()
     {
-        /*if (HomeManager.Instance != null)
+        if (HomeManager.Instance != null)
         {
-            HomeManager.Instance.OnLevelChanged -= SetUiLevel;
-        }*/
+            HomeManager.Instance.OnPlayingLevelChanged -= SetUiLevel;
+        }
 
         if (GridManager.Instance != null)
         {
