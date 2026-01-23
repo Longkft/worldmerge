@@ -11,6 +11,38 @@ public enum GamePlayMode
     Math  // Chế độ toán học
 }
 
+// Class lưu thông tin 1 viên Item
+[Serializable]
+public class ItemSaveData
+{
+    public string word;
+    public string groupId;
+    public string groupName; // Result text
+    public int slotIndex;    // Đang nằm ở slot nào
+    public bool isLocked;
+}
+
+// Class lưu thông tin 1 hàng đã ăn (Completed Row)
+[Serializable]
+public class RowSaveData
+{
+    public string title;
+    public string content;
+    public int rowIndex;
+}
+
+// Class lưu toàn bộ màn chơi
+[Serializable]
+public class MatchSaveData
+{
+    public bool hasData = false;
+    public int levelIndex;
+    public GamePlayMode mode;
+    public int rowsCompleted;
+    public List<ItemSaveData> items = new List<ItemSaveData>();
+    public List<RowSaveData> rows = new List<RowSaveData>();
+}
+
 //DATA MODELS(Mở rộng thoải mái) ---
 [Serializable]
 public class UserProgress
@@ -46,6 +78,9 @@ public class SaveData
 {
     public UserProgress progress = new UserProgress();
     public GameSettings settings = new GameSettings();
+
+    public MatchSaveData matchWord = new MatchSaveData();
+    public MatchSaveData matchMath = new MatchSaveData();
 }
 
 public class DataManager : Singleton<DataManager>
@@ -237,5 +272,65 @@ public class DataManager : Singleton<DataManager>
     private void OnApplicationPause(bool pause)
     {
         if (pause) _ = SaveDataAsync();
+    }
+
+    // =========================================================
+    // CÁC HÀM XỬ LÝ SAVE TIẾN TRÌNH (MATCH)
+    // =========================================================
+
+    // Lưu tiến trình chơi
+    public void SaveMatchProgress(MatchSaveData matchData)
+    {
+        if (_cachedData != null)
+        {
+            // Kiểm tra xem data này thuộc Mode nào để lưu vào đúng chỗ
+            if (matchData.mode == GamePlayMode.Word)
+            {
+                _cachedData.matchWord = matchData;
+                _cachedData.matchWord.hasData = true;
+            }
+            else
+            {
+                _cachedData.matchMath = matchData;
+                _cachedData.matchMath.hasData = true;
+            }
+
+            _ = SaveDataAsync();
+        }
+    }
+
+    // Lấy tiến trình chơi theo Mode
+    public MatchSaveData GetMatchProgress(GamePlayMode mode)
+    {
+        if (_cachedData == null) return null;
+
+        if (mode == GamePlayMode.Word)
+        {
+            if (_cachedData.matchWord.hasData) return _cachedData.matchWord;
+        }
+        else
+        {
+            if (_cachedData.matchMath.hasData) return _cachedData.matchMath;
+        }
+        return null;
+    }
+
+    // Xóa tiến trình theo Mode (Khi thắng)
+    public void ClearMatchProgress(GamePlayMode mode)
+    {
+        if (_cachedData != null)
+        {
+            if (mode == GamePlayMode.Word)
+            {
+                _cachedData.matchWord = new MatchSaveData();
+                _cachedData.matchWord.hasData = false;
+            }
+            else
+            {
+                _cachedData.matchMath = new MatchSaveData();
+                _cachedData.matchMath.hasData = false;
+            }
+            _ = SaveDataAsync();
+        }
     }
 }

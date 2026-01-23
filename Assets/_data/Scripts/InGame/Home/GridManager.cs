@@ -20,6 +20,9 @@ public class GridManager : Singleton<GridManager>
     private List<SlotNode> _spawnedSlots = new List<SlotNode>();
     private List<ItemController> _spawnedItems = new List<ItemController>();
 
+    // List cache để lưu lại các hàng đã hoàn thành (phục vụ việc Save)
+    private List<RowSaveData> _completedRowsCache = new List<RowSaveData>();
+
     private float VEC_UNDER_MAP = 0.2f;
 
     private bool _isGameFinished = false; // Cờ đánh dấu game đã kết thúc chưa
@@ -52,7 +55,26 @@ public class GridManager : Singleton<GridManager>
         this.ClearGrid();
     }
 
-    public void GenerateGrid(MergeLevel levelData)
+    // Tự động lưu khi người chơi ẩn game (ấn nút Home điện thoại) hoặc tắt game
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        // Khi pauseStatus = true nghĩa là app đang bị ẩn đi
+        if (pauseStatus && !_isGameFinished)
+        {
+            SaveGameState();
+        }
+    }
+
+    private void OnApplicationQuit()
+    {
+        if (!_isGameFinished)
+        {
+            SaveGameState();
+        }
+    }
+
+    // Hàm GenerateGrid giờ sẽ điều hướng: Chơi mới hay Load save
+    /*public void GenerateGrid(MergeLevel levelData)
     {
         ClearGrid();
 
@@ -145,6 +167,200 @@ public class GridManager : Singleton<GridManager>
         }
 
         Debug.Log($"Đã tạo Grid {columns}x{rows}. Slots: {_spawnedSlots.Count}, Items: {allItemsToSpawn.Count}");
+    }*/
+    public void GenerateGrid(MergeLevel levelData)
+    {
+        ClearGrid();
+        _isGameFinished = false;
+
+        if (levelData == null || levelData.groups == null) return;
+
+        // Lấy Mode hiện tại
+        GamePlayMode currentMode = HomeManager.Instance.SelectedGamePlayMode;
+
+        // [SỬA] Lấy Save Data theo đúng Mode
+        var save = DataManager.Instance.GetMatchProgress(currentMode);
+
+        bool canLoadSave = false;
+
+        // Chỉ load nếu có data VÀ đúng Level VÀ đúng Mode
+        if (save != null && save.hasData)
+        {
+            if (save.levelIndex == levelData.level && save.mode == currentMode)
+            {
+                canLoadSave = true;
+            }
+        }
+
+        if (canLoadSave)
+        {
+            Debug.Log("<color=yellow>LOAD TIẾN TRÌNH TỪ FILE SAVE</color>");
+            RestoreGame(save, levelData);
+        }
+        else
+        {
+            Debug.Log("<color=green>TẠO MỚI GAME</color>");
+            CreateNewGame(levelData);
+        }
+    }
+
+    // --- LOGIC TẠO MỚI (Code cũ của bạn chuyển vào đây) ---
+    private void CreateNewGame(MergeLevel levelData)
+    {
+        List<ItemData> allItemsToSpawn = new List<ItemData>();
+        foreach (var group in levelData.groups)
+        {
+            foreach (string word in group.words)
+            {
+                allItemsToSpawn.Add(new ItemData(word, group.id, group.result));
+            }
+        }
+        ShuffleList(allItemsToSpawn);
+
+        int totalItems = allItemsToSpawn.Count;
+        InitSlots(totalItems); // Tạo Slot
+
+        // Spawn Item
+        for (int i = 0; i < allItemsToSpawn.Count; i++)
+        {
+            if (i >= _spawnedSlots.Count) break;
+            SpawnItemAtSlot(allItemsToSpawn[i], _spawnedSlots[i]);
+        }
+
+        // Save ngay trạng thái đầu tiên
+        SaveGameState();
+    }
+
+    // --- LOGIC KHÔI PHỤC (Mới) ---
+    private void RestoreGame(MatchSaveData save, MergeLevel levelData)
+    {
+        // 1. Tính tổng item để tạo lại khung Slot
+        int totalItems = 0;
+        foreach (var g in levelData.groups) totalItems += g.words.Count;
+        InitSlots(totalItems);
+
+        // 2. Khôi phục Items
+        foreach (var itemSave in save.items)
+        {
+            if (itemSave.slotIndex < _spawnedSlots.Count)
+            {
+                SlotNode slot = _spawnedSlots[itemSave.slotIndex];
+                ItemData data = new ItemData(itemSave.word, itemSave.groupId, itemSave.groupName);
+
+                ItemController ctrl = SpawnItemAtSlot(data, slot);
+
+                if (ctrl != null && itemSave.isLocked)
+                {
+                    ctrl.LockItemComplete(); // Khóa lại nếu đã ăn
+                }
+            }
+        }
+
+        // 3. Khôi phục các thanh Completed Rows
+        _completedRowsCache = save.rows; // Load lại cache
+        foreach (var rowData in save.rows)
+        {
+            SpawnCompletedRowVisual(rowData.title, rowData.content, rowData.rowIndex);
+        }
+
+        // 4. Khôi phục số lượng hàng đã ăn
+        this.NumberRowsCompleted = save.rowsCompleted;
+    }
+
+    // --- HELPER: Tạo Slot (Dùng chung) ---
+    private void InitSlots(int totalItems)
+    {
+        int rows = Mathf.CeilToInt((float)totalItems / columns);
+        float gridWidth = (columns - 1) * xSpacing;
+        float gridHeight = (rows - 1) * ySpacing;
+        Vector2 startPos = new Vector2(-gridWidth / 2, (gridHeight / 2) - this.VEC_UNDER_MAP);
+
+        int totalSlots = rows * columns;
+        _totalRows = rows;
+
+        for (int i = 0; i < totalSlots; i++)
+        {
+            int row = i / columns;
+            int col = i % columns;
+            float posX = startPos.x + (col * xSpacing);
+            float posY = startPos.y - (row * ySpacing);
+            Vector3 spawnPos = new Vector3(posX, posY, 2);
+
+            SlotNode newSlot = Instantiate(PrefabManager.Instance.ItemSlot, spawnPos, Quaternion.identity, container).GetComponent<SlotNode>();
+            newSlot.name = $"Slot_{row}_{col}";
+            newSlot.Init(row, col);
+            _spawnedSlots.Add(newSlot);
+        }
+    }
+
+    // --- HELPER: Spawn Item (Dùng chung) ---
+    private ItemController SpawnItemAtSlot(ItemData data, SlotNode slot)
+    {
+        Vector3 pos = slot.transform.position;
+        Vector3 spawnPos = new Vector3(pos.x, pos.y, 0); // Z=0
+        GameObject newItemObj = Instantiate(PrefabManager.Instance.ItemGame, spawnPos, Quaternion.identity, containerItem);
+        newItemObj.name = $"Item_{data.word}";
+
+        ItemController ctrl = newItemObj.GetComponent<ItemController>();
+        if (ctrl != null)
+        {
+            ctrl.Setup(data, slot);
+            slot.LinkController(ctrl);
+            _spawnedItems.Add(ctrl);
+        }
+        return ctrl;
+    }
+
+    // --- HELPER: Spawn Completed Row Visual (Dùng chung) ---
+    private void SpawnCompletedRowVisual(string title, string content, int rowIndex)
+    {
+        int firstSlotIndex = rowIndex * columns;
+        if (firstSlotIndex < _spawnedSlots.Count)
+        {
+            float fixedY = _spawnedSlots[firstSlotIndex].transform.position.y;
+            Vector3 spawnPos = new Vector3(0, fixedY, -1);
+
+            GameObject completedRowPrefab = PrefabManager.Instance.ItemCompleted;
+            if (completedRowPrefab != null)
+            {
+                var rowObj = Instantiate(completedRowPrefab, spawnPos, Quaternion.identity, containerCompleted);
+                rowObj.GetComponent<RowCompletedView>().Setup(title, content);
+                rowObj.GetComponent<RowCompletedView>().ActiveEff();
+            }
+        }
+    }
+
+    // [QUAN TRỌNG] Hàm lưu trạng thái hiện tại
+    public void SaveGameState()
+    {
+        if (_isGameFinished) return; // Game xong rồi thì ko lưu đè nữa
+
+        MatchSaveData data = new MatchSaveData();
+        data.levelIndex = HomeManager.Instance.CurrentPlayingLevel;
+        data.mode = HomeManager.Instance.SelectedGamePlayMode;
+        data.rowsCompleted = this.NumberRowsCompleted;
+        data.rows = new List<RowSaveData>(_completedRowsCache);
+
+        // Quét tất cả các slot để xem item nào đang ở đâu
+        for (int i = 0; i < _spawnedSlots.Count; i++)
+        {
+            SlotNode slot = _spawnedSlots[i];
+            ItemController item = slot.GetController();
+
+            if (item != null)
+            {
+                ItemSaveData itemData = new ItemSaveData();
+                itemData.word = item.Data.word;
+                itemData.groupId = item.Data.groupId;
+                itemData.groupName = item.Data.groupName; // Lưu ý: Dùng groupName theo class ItemData của bạn
+                itemData.isLocked = item.IsLocked;
+                itemData.slotIndex = i; // Lưu index của slot
+
+                data.items.Add(itemData);
+            }
+        }
+
+        DataManager.Instance.SaveMatchProgress(data);
     }
 
     private void ClearGrid()
@@ -154,6 +370,8 @@ public class GridManager : Singleton<GridManager>
         foreach (Transform child in containerCompleted) Destroy(child.gameObject);
         _spawnedSlots.Clear(); // Nhớ clear list slot
         _spawnedItems.Clear();
+
+        _completedRowsCache.Clear(); // Reset cache
 
         this.NumberRowsCompleted = 0;
     }
@@ -327,30 +545,14 @@ public class GridManager : Singleton<GridManager>
                 content += rowItems[i].Data.word + (i < rowItems.Count - 1 ? ", " : "");
             }
 
-            // TÍNH VỊ TRÍ ĐỂ ĐÈ LÊN
-            // Tìm index của Slot đầu tiên trong hàng này
-            int firstSlotIndex = rowIndex * columns;
+            // [THÊM] Lưu thông tin hàng hoàn thành vào cache
+            RowSaveData rData = new RowSaveData();
+            rData.title = title;
+            rData.content = content;
+            rData.rowIndex = rowIndex;
+            _completedRowsCache.Add(rData);
 
-            // Kiểm tra an toàn
-            if (firstSlotIndex < _spawnedSlots.Count)
-            {
-                // Lấy vị trí Y của cái SLOT (Slot không bao giờ di chuyển)
-                float fixedY = _spawnedSlots[firstSlotIndex].transform.position.y;
-
-                // Set vị trí spawn (X=0, Y=theo Slot, Z=-2 để đè lên item nằm im)
-                Vector3 spawnPos = new Vector3(0, fixedY, -1);
-
-                GameObject completedRowPrefab = PrefabManager.Instance.ItemCompleted;
-                // 3. SINH RA THANH MỚI
-                if (completedRowPrefab != null)
-                {
-                    var rowObj = Instantiate(completedRowPrefab, spawnPos, Quaternion.identity, containerCompleted);
-                    rowObj.GetComponent<RowCompletedView>().Setup(title, content);
-
-                    // eff
-                    rowObj.GetComponent<RowCompletedView>().ActiveEff();
-                }
-            }
+            SpawnCompletedRowVisual(title, content, rowIndex);
 
             this.NumberRowsCompleted++;
 
@@ -399,6 +601,10 @@ public class GridManager : Singleton<GridManager>
 
             Debug.Log("End Game");
             _isGameFinished = true;
+
+            // Gọi HomeManager để xóa Save và Tăng Level
+            HomeManager.Instance.OnLevelWin();
+
             PopupManager.Instance.ShowPopupEndGame();
         }
     }

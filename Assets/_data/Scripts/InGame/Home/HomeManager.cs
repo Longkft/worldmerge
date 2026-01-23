@@ -288,7 +288,11 @@ public class HomeManager : Singleton<HomeManager>
     /// </summary>
     public void OnLevelWin()
     {
-        // [QUAN TRỌNG] Logic kiểm tra xem có được cộng Save hay không
+        // Xóa save game chơi dở đi(vì đã thắng rồi)
+        // Chỉ xóa save của chế độ hiện tại
+        DataManager.Instance.ClearMatchProgress(this.SelectedGamePlayMode);
+
+        // Logic kiểm tra xem có được cộng Save hay không
 
         // Chỉ cộng Save khi: Level vừa thắng == Level cao nhất hiện có
         // (Tức là đang phá đảo, chứ không phải đang chơi lại bài cũ)
@@ -326,7 +330,13 @@ public class HomeManager : Singleton<HomeManager>
 
     public void ReturnToHome()
     {
-        // [MỚI] Đánh dấu là về Home
+        if (this.CurrentMode == GameMode.GamePlay && GridManager.Instance != null)
+        {
+            // Gọi hàm lưu của GridManager
+            GridManager.Instance.SaveGameState();
+        }
+
+        // Đánh dấu là về Home
         this.CurrentMode = GameMode.Home;
 
         // Gọi UI về Home
