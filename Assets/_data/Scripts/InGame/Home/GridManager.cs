@@ -16,6 +16,9 @@ public class GridManager : Singleton<GridManager>
     [SerializeField] private Transform containerItem;  // Chứa Item
     [SerializeField] private Transform containerCompleted;  // Chứa Item
 
+    [Header("Debug")]
+    public bool isTestWin = false;
+
     // Quản lý danh sách các Slot đã xây xong
     private List<SlotNode> _spawnedSlots = new List<SlotNode>();
     private List<ItemController> _spawnedItems = new List<ItemController>();
@@ -522,8 +525,12 @@ public class GridManager : Singleton<GridManager>
             rowItems.Add(item);
         }
 
-        /*this.NumberRowsCompleted = 6; // dùng để check
-        Debug.Log("this.NumberRowsCompleted: " + this.NumberRowsCompleted);*/
+        if (isTestWin)
+        {
+            this.NumberRowsCompleted = 6;
+            /*isTestWin = false; // Tắt ngay sau khi dùng để không bị dính sang màn sau*/
+        }
+        Debug.Log("this.NumberRowsCompleted: " + this.NumberRowsCompleted);
 
         // KẾT QUẢ
         if (isRowFullAndSame && rowItems.Count >= columns)
@@ -593,14 +600,16 @@ public class GridManager : Singleton<GridManager>
 
         // Chặn ngay từ đầu nếu game đã xong
         if (_isGameFinished) return;
-        if (this.NumberRowsCompleted == Config.NUMBER_ENDGAME)
+        if (this.NumberRowsCompleted >= Config.NUMBER_ENDGAME)
         {
             AudioManager.Instance.PlaySFX(SoundType.Win_Level);
 
-            await Utils.AwaitTime(2, this.destroyCancellationToken);
-
             Debug.Log("End Game");
             _isGameFinished = true;
+
+            await Utils.AwaitTime(2, this.destroyCancellationToken);
+
+            if (this.NumberRowsCompleted < Config.NUMBER_ENDGAME) return;
 
             // Gọi HomeManager để xóa Save và Tăng Level
             HomeManager.Instance.OnLevelWin();

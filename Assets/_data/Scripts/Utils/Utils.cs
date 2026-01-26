@@ -4,11 +4,12 @@ using System.Threading.Tasks;
 
 public static class Utils
 {
-    public static async Task AwaitTime(int seconds, CancellationToken token)
+    public static async Task AwaitTime(float seconds, CancellationToken token)
     {
         try
         {
-            await Task.Delay(seconds * 1000, token);
+            // Dùng hàm FromSeconds tự động xử lý float
+            await Task.Delay(TimeSpan.FromSeconds(seconds), token);
         }
         catch (OperationCanceledException)
         {

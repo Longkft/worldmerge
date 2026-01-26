@@ -13,10 +13,10 @@ public class popupEndGame : BasePopup
     // --- SAFETY FIRST ---
     private void OnDisable()
     {
-        DOTween.Kill(this.transform);
+        /*DOTween.Kill(this.transform);*/
     }
 
-    public override void Show(System.Action onCloseCallback)
+    public override void  Show(System.Action onCloseCallback)
     {
         DOTween.Kill(this.transform); // Dọn dẹp
 
@@ -27,12 +27,15 @@ public class popupEndGame : BasePopup
         HomeManager.Instance.OnLevelWin();
         levelUI.text = "LEVEL " + HomeManager.Instance.CurrentPlayingLevel.ToString();
 
-        // play âm thanh
-        AudioManager.Instance.PlaySFX(SoundType.Win);
-
         if (_fx != null)
         {
-            _fx.ShowFx(() => UiManager.Instance.ActiceEffEndGame());
+            _fx.ShowFx(async () => {
+                UiManager.Instance.ActiceEffEndGame();
+
+                await Utils.AwaitTime(0.1f, this.destroyCancellationToken);
+                // play âm thanh
+                AudioManager.Instance.PlaySFX(SoundType.Win);
+            });
         }
     }
 
@@ -46,10 +49,10 @@ public class popupEndGame : BasePopup
         {
             _fx.FXBoxHide(() => // Hàm HideFX của FxView đã bao gồm Shadow và Box rồi
             {
+                this.gameObject.SetActive(false);
+
                 // Animation xong -> Tự tắt active bên FxView -> Gọi callback
                 _onCloseCallback?.Invoke();
-
-                this.gameObject.SetActive(false);
             });
         }
         else
