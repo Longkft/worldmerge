@@ -1589,7 +1589,7 @@ MonoBehaviour:
   container: {fileID: 1360082212}
   containerItem: {fileID: 1417246632}
   containerCompleted: {fileID: 2126452560}
-  isTestWin: 1
+  isTestWin: 0
 --- !u!1 &276534694
 GameObject:
   m_ObjectHideFlags: 0
